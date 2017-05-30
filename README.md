@@ -40,7 +40,7 @@ const PathPattern = require('path-pattern').PathPattern;
 > Note : If you use Typescript, typings are include in the package !
 
 ```js
-import { PathPattern } fropm 'path-pattern';
+import { PathPattern } from 'path-pattern';
 ```
 
 ##Usage
