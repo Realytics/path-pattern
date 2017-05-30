@@ -9,6 +9,7 @@
     "clean": "rimraf lib",
     "build": "NODE_ENV=production npm run clean && NODE_ENV=production webpack lib/index.js",
     "build-stats": "NODE_ENV=production npm run clean && NODE_ENV=production webpack lib/index.js --json > stats.json",
+    "prepublish": "npm run build",
     "test": ""
   },
   "repository": "git@github.com:Realytics/path-pattern.git",
