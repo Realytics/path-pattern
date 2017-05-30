@@ -1,0 +1,10 @@
+/coverage
+/examples
+/test
+webpack.config.js
+tsconfig.json
+stats.json
+tslint.json
+yarn.lock
+.idea
+.travis.yml

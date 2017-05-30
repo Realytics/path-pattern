@@ -24,7 +24,10 @@
     "test:watch": "yarn test -- --watch",
     "test:cov": "yarn test -- --coverage"
   },
-  "repository": "git@github.com:Realytics/path-pattern.git",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/Realytics/path-pattern.git"
+  },
   "dependencies": {
     "path-to-regexp": "^1.7.0"
   },
@@ -51,5 +54,13 @@
     },
     "testRegex": "(/test/.*\\.spec.(ts|tsx|js))$",
     "mapCoverage": true
+  },
+  "bugs": {
+    "url": "https://github.com/Realytics/path-pattern/issues"
+  },
+  "homepage": "https://github.com/Realytics/path-pattern#readme",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
   }
 }
