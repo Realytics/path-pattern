@@ -1,7 +1,6 @@
 import * as pathToRegexp from 'path-to-regexp';
 import { PathRegExp, PathFunction, RegExpOptions, ParseOptions, Key } from 'path-to-regexp';
 import { IPathPattern, Match } from './interface.d';
-import reduce = require('lodash/reduce');
 
 export type ContructorOptions = {
   exact?: boolean;
@@ -74,14 +73,13 @@ export class PathPattern<P> implements IPathPattern<P> {
       path: this.path, // the path pattern used to match
       url: (this.path === '/' && url === '') ? '/' : url, // the matched portion of the URL
       isExact, // whether or not we matched exactly
-      params: reduce<Key, {}>(
-        this.re.keys,
+      params: this.re.keys.reduce(
         (memo: any, key: Key, index: number) => {
           memo[key.name] = values[index];
           return memo;
         },
         {},
-      ) as P,
+      ),
     };
   }
 

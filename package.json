@@ -8,6 +8,7 @@
   "scripts": {
     "clean": "rimraf lib",
     "build": "NODE_ENV=production npm run clean && NODE_ENV=production webpack lib/index.js",
+    "build-stats": "NODE_ENV=production npm run clean && NODE_ENV=production webpack lib/index.js --json > stats.json",
     "test": ""
   },
   "repository": "git@github.com:Realytics/path-pattern.git",
@@ -15,7 +16,6 @@
     "path-to-regexp": "^1.7.0"
   },
   "devDependencies": {
-    "@types/lodash": "^4.14.64",
     "cross-env": "^5.0.0",
     "lodash": "^4.17.4",
     "rimraf": "^2.6.1",
