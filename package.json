@@ -1,7 +1,7 @@
 {
   "name": "path-pattern",
   "version": "0.1.0",
-  "description": "A url matching lib to go with Realytivs/react-router-magic",
+  "description": "A url matching lib to go with Realytics/react-router-magic",
   "author": "Etienne Dldc <etienne.dldc@outlook.fr>",
   "license": "MIT",
   "main": "lib/index.js",
