@@ -1,0 +1,28 @@
+{
+  "name": "path-pattern",
+  "version": "1.0.0",
+  "author": "Etienne Dldc <etienne.dldc@outlook.fr>",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "scripts": {
+    "clean": "rimraf lib",
+    "build": "NODE_ENV=production npm run clean && NODE_ENV=production webpack lib/index.js",
+    "test": ""
+  },
+  "repository": "git@github.com:Realytics/path-pattern.git",
+  "dependencies": {
+    "path-to-regexp": "^1.7.0"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.14.64",
+    "cross-env": "^5.0.0",
+    "lodash": "^4.17.4",
+    "rimraf": "^2.6.1",
+    "ts-loader": "^2.1.0",
+    "tslint": "^5.3.2",
+    "tslint-loader": "^3.5.3",
+    "typescript": "^2.3.3",
+    "webpack": "^2.6.1"
+  }
+}
