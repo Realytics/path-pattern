@@ -1,10 +1,20 @@
 {
   "name": "path-pattern",
-  "version": "1.0.0",
+  "version": "0.1.0",
+  "description": "A url matching lib to go with Realytivs/react-router-magic",
   "author": "Etienne Dldc <etienne.dldc@outlook.fr>",
   "license": "MIT",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
+  "keywords": [
+    "path",
+    "url",
+    "routing",
+    "pattern",
+    "regexp",
+    "matching",
+    "router"
+  ],
   "scripts": {
     "clean": "rimraf lib",
     "build": "NODE_ENV=production npm run clean && NODE_ENV=production webpack lib/index.js",
