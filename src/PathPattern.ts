@@ -16,8 +16,6 @@ export class PathPattern<P> implements IPathPattern<P> {
   static cache: CacheContainer = {};
 
   private options: RegExpOptions & ParseOptions;
-  private _re: PathRegExp;
-  private _reCompile: PathFunction;
   private _optionsKey: string;
 
   private get optionsKey(): string {
@@ -28,23 +26,27 @@ export class PathPattern<P> implements IPathPattern<P> {
   }
 
   private get re(): PathRegExp {
-    if (!this._re) {
-      this.ensureCacheExist();
-      if (!PathPattern.cache[this.path][this.optionsKey].re) {
-        PathPattern.cache[this.path][this.optionsKey].re = this._re = pathToRegexp(this.path, this.options);
-      }
+    this.ensureCacheExist();
+    const reCache: PathRegExp | undefined = PathPattern.cache[this.path][this.optionsKey].re;
+    if (reCache === undefined) {
+      const re: PathRegExp = pathToRegexp(this.path, this.options);
+      PathPattern.cache[this.path][this.optionsKey].re = re;
+      return re;
+    } else {
+      return reCache;
     }
-    return this._re;
   }
 
   private get reCompile(): PathFunction {
-    if (!this._reCompile) {
-      this.ensureCacheExist();
-      if (!PathPattern.cache[this.path][this.optionsKey].compile) {
-        PathPattern.cache[this.path][this.optionsKey].compile = this._reCompile = pathToRegexp.compile(this.path);
-      }
+    this.ensureCacheExist();
+    const compileCache: PathFunction | undefined = PathPattern.cache[this.path][this.optionsKey].compile;
+    if (compileCache === undefined) {
+      const compile: PathFunction = pathToRegexp.compile(this.path);
+      PathPattern.cache[this.path][this.optionsKey].compile = compile;
+      return compile;
+    } else {
+      return compileCache;
     }
-    return this._reCompile;
   }
 
   constructor(

@@ -29,7 +29,7 @@ describe(`new PathPattern('/home/', { exact: true, strict: true })`, () => {
 });
 
 // create twice the same path for coverage
-describe(`new PathPattern('/home/', { exact: true, strict: true })`, () => {
+describe(`new PathPattern('/home/', { exact: true, strict: true }) bis`, () => {
   const pattern = new PathPattern('/home/', { exact: true, strict: true });
   it(`match '/home/'`, () => { expect(pattern.match('/home/')).toBeTruthy(); });
   it(`does not match '/home'`, () => { expect(pattern.match('/home')).toBeFalsy(); });
