@@ -1,6 +1,6 @@
 {
   "name": "path-pattern",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A url matching lib to go with Realytics/react-router-magic",
   "author": "Etienne Dldc <etienne.dldc@outlook.fr>",
   "license": "MIT",
