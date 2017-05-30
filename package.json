@@ -20,19 +20,36 @@
     "build": "NODE_ENV=production npm run clean && NODE_ENV=production webpack lib/index.js",
     "build-stats": "NODE_ENV=production npm run clean && NODE_ENV=production webpack lib/index.js --json > stats.json",
     "prepublish": "npm run build",
-    "test": ""
+    "test": "jest",
+    "test:watch": "yarn test -- --watch",
+    "test:cov": "yarn test -- --coverage"
   },
   "repository": "git@github.com:Realytics/path-pattern.git",
   "dependencies": {
     "path-to-regexp": "^1.7.0"
   },
   "devDependencies": {
+    "@types/jest": "^19.2.3",
     "cross-env": "^5.0.0",
+    "jest": "^20.0.4",
     "rimraf": "^2.6.1",
+    "ts-jest": "^20.0.5",
     "ts-loader": "^2.1.0",
     "tslint": "^5.3.2",
     "tslint-loader": "^3.5.3",
     "typescript": "^2.3.3",
     "webpack": "^2.6.1"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ],
+    "transform": {
+      "\\.(ts|tsx)$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+    },
+    "testRegex": "(/test/.*\\.spec.(ts|tsx|js))$",
+    "mapCoverage": true
   }
 }
