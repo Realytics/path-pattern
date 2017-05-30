@@ -7,15 +7,11 @@ This is a a wrapper aroud [path-to-regexp](https://github.com/pillarjs/path-to-r
 
 This package is under developement, do not use it in production. 
 
-## Getting Started
-
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
-
-### Prerequisites
+## Prerequisites
 
 You need [NodeJS](https://nodejs.org/en/) and [NPM](https://www.npmjs.com/) or [Yarn](https://yarnpkg.com/en/).
 
-### Installing
+## Installing
 
 ```bash
 npm install path-pattern --save
@@ -29,12 +25,6 @@ yarn add path-pattern
 
 ## Import in your project
 
-### Node
-
-```js
-const PathPattern = require('path-pattern').PathPattern;
-```
-
 ### ES6 or Typescript
 
 > Note : If you use Typescript, typings are include in the package !
@@ -43,7 +33,13 @@ const PathPattern = require('path-pattern').PathPattern;
 import { PathPattern } from 'path-pattern';
 ```
 
-##Usage
+### Node
+
+```js
+const PathPattern = require('path-pattern').PathPattern;
+```
+
+## Usage
 
 ```js
 const homePattern = new PathPattern('/home');
@@ -55,12 +51,12 @@ const homePattern = new PathPattern('/home', { exact: false, strict: false });
 
 ### `PathPattern`
 
-#### `new PathPattern<P>(path: string, options?: { strict?: boolean, exact?: boolean })`
+#### > `new PathPattern<P>(path: string, options?: { strict?: boolean, exact?: boolean })`
 
 - `P`: Type of params object (in Match resulr)
 - `path`: The path pattern to parse, see [path-to-regexp docs](https://github.com/pillarjs/path-to-regexp)
 - `option.strict`: (`false` by default) When `true`, a path that has a trailing slash will only match a location.pathname with a trailing slash. This has no effect when there are additional URL segments in the location.pathname
-- `option.exact`: (`false` by default) When `true`, the path will not match sub path (see table below)
+- `option.exact`: (`false` by default) When `true`, the path will not match sub path (see below)
 
 ##### Examples
 
@@ -95,14 +91,17 @@ const homePattern = new PathPattern('/home', { exact: false, strict: false });
     - `/`
     - `/welcome`
 
-#### `match(location: string): (Match<P> | false)`
+#### > `match(location: string): (Match<P> | false)`
 
 - `location`: the `location.pathname` you want to match
 - Result : a `Match` object is the location match the path, false if not. See Match object bellow
 
-#### `compile(params: P): string`
+#### > `compile(params?: P): string`
 
-#### `Match`
+- `params`: Params used to build the path (for example `{ user: 'john' }` to build `/home/john`)
+- Result: the compiled path 
+
+### > `Match`
 
 Match is a plain object that contain the following keys:   
 - `path: string`: The path that match, example: `/user/:user`
