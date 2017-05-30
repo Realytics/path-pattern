@@ -7,11 +7,11 @@ var env = process.env.NODE_ENV;
 var config = {
   context: __dirname,
   target: 'web',
-  name: 'redux-router-location',
+  name: 'path-pattern',
   entry: './src/index.ts',
 
   output: {
-    library: 'ReduxRouterLocation',
+    library: 'PathPattern',
     libraryTarget: 'umd'
   },
 
