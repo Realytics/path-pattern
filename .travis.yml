@@ -11,8 +11,7 @@ deploy:
     repo: Realytics/path-pattern
 - provider: pages
   skip_cleanup: true
-  github_token:
-    secure: BGRw5kfVaPWgXSPn/NEar0SQENv8gvaAaBVwk4fk/h5qwH53GxT+Rp1tjxOT7A+pX84SjO4QRpWrTOm0lTPRPqVIxBNLApoy+QBlWXu+1GIgCCSFAIWxi3Nj5fmDoENIrGevGtEpWIXffVFVEiJFcfWkQMoDQZjIR0bdDjux9NgHOiLwBoL49pc0znjgbVU+74jijHQnhqnbcfGI25VmyQTwihZKeUM3SyNgAEyYroqvtsexbNQqyPZxqTfDGcDtB9m+n5v7G758LqQ6cy5n2yja4HpxNdXIYZfc7ZxPaqKAfR1ZRtfx5jfWCN1mFM3ghQWZTTl1wEpq7oCYA24OIJyiEUHRc764MUpr0awpM/F3GgzvhFMjShVAZwnGx4BLJAhEHAHmG5+kKv77ZY4UCKk7hfS0Qu4P6NpBaeon44WtyVYEDnAzjhsMLEXltD+TjMfqOHGoZvuqu2z3+FO+HV/Cnwiy8bWCwNw44es0tVbUfAwogUU+nXMBB7bgH8cO7lQOA+UkEvg49fzRFTklW7SlbciDOlAmKhKulWBGtJMDxRHx2pUK5fKbIpH535wMwfQ+hSVVU0ZE+KnyGs5xCAd4w7xOCNsXM1q1ztWOs6fY+z/mS0urgendA6Q1zmBMnuIbde07/kpV29krtUnc5zuNKYRNpxc/C2p4WXNlBC0=
+  github_token: $GITHUB_TOKEN
   local_dir: "generated-docs"
   on:
     branch: master
