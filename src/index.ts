@@ -1,1 +1,1 @@
-export { PathPattern } from './PathPattern';
+export { PathPattern, Match } from './PathPattern';

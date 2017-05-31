@@ -1,6 +1,16 @@
 import * as pathToRegexp from 'path-to-regexp';
 import { PathRegExp, PathFunction, RegExpOptions, ParseOptions, Key } from 'path-to-regexp';
-import { IPathPattern, Match } from './interface.d';
+import { Match } from './interface.d';
+import { Location } from 'history';
+
+export type MatchSuccess<P> = {
+  params: P;
+  isExact: boolean;
+  path: string;
+  url: string;
+};
+
+export type Match<P> = false | MatchSuccess<P>;
 
 export type ContructorOptions = {
   exact?: boolean;
@@ -11,7 +21,7 @@ export type CacheContainer = {
   [key: string]: { [key: string]: { re?: PathRegExp, compile?: PathFunction } };
 };
 
-export class PathPattern<P> implements IPathPattern<P> {
+export class PathPattern<P> {
 
   static cache: CacheContainer = {};
 
@@ -57,15 +67,15 @@ export class PathPattern<P> implements IPathPattern<P> {
     this.options = { end: exact, strict };
   }
 
-  match(location: string): Match<P> | false {
-    const match: RegExpExecArray | null = this.re.exec(location);
+  match(location: Location): Match<P> {
+    const match: RegExpExecArray | null = this.re.exec(location.pathname);
 
     if (!match) {
       return false;
     }
 
     const [url, ...values]: RegExpExecArray = match;
-    const isExact: boolean = location === url;
+    const isExact: boolean = location.pathname === url;
 
     return {
       path: this.path, // the path pattern used to match

@@ -19,7 +19,7 @@
     "clean": "rimraf lib",
     "build": "NODE_ENV=production npm run clean && NODE_ENV=production webpack lib/index.js",
     "build-stats": "NODE_ENV=production npm run clean && NODE_ENV=production webpack lib/index.js --json > stats.json",
-    "prepublish": "npm run build",
+    "prepare": "npm run build",
     "test": "jest",
     "test:watch": "yarn test -- --watch",
     "test:cov": "yarn test -- --coverage"
@@ -32,6 +32,7 @@
     "path-to-regexp": "^1.7.0"
   },
   "devDependencies": {
+    "@types/history": "^4.5.1",
     "@types/jest": "^19.2.3",
     "cross-env": "^5.0.0",
     "jest": "^20.0.4",
