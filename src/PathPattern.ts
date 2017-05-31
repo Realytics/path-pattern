@@ -11,41 +11,41 @@ export type MatchSuccess<P> = {
 
 export type Match<P> = false | MatchSuccess<P>;
 
-export type ContructorOptions = {
+export type MatchOptions = {
   exact?: boolean;
   strict?: boolean;
 };
 
 export type CacheContainer = {
-  [key: string]: { [key: string]: { re?: PathRegExp, compile?: PathFunction } };
+  [key: string]: {
+    compile: PathFunction | null,
+    re: { [key: string]: PathRegExp },
+  };
 };
 
 export interface IMatchable<ParentParams, Params> {
-  match(location: Location, parentMatch: Match<ParentParams>): Match<Params>;
+  match(options: MatchOptions): (location: Location, parentMatch: Match<ParentParams>) => Match<Params>;
 }
 
 export class PathPattern<P> implements IMatchable<any, P> {
 
   static cache: CacheContainer = {};
 
-  private matchOptions: RegExpOptions & ParseOptions;
-  private _optionsKey: string;
-
   private path: string;
 
-  private get optionsKey(): string {
-    if (!this._optionsKey) {
-      this._optionsKey = `${this.matchOptions.end}-${this.matchOptions.strict}`;
-    }
-    return this._optionsKey;
+  private getOptionsKey(options: MatchOptions): string {
+    return `${options.exact}-${options.strict}`;
   }
 
-  private get re(): PathRegExp {
+  private getRe(options: MatchOptions): PathRegExp {
     this.ensureCacheExist();
-    const reCache: PathRegExp | undefined = PathPattern.cache[this.path][this.optionsKey].re;
+    const optionKey: string = this.getOptionsKey(options);
+    const reCache: PathRegExp | undefined = PathPattern.cache[this.path].re[optionKey];
     if (reCache === undefined) {
-      const re: PathRegExp = pathToRegexp(this.path, this.matchOptions);
-      PathPattern.cache[this.path][this.optionsKey].re = re;
+      const { exact = false, strict = false } = options;
+      const matchOptions: RegExpOptions & ParseOptions = { end: exact, strict };
+      const re: PathRegExp = pathToRegexp(this.path, matchOptions);
+      PathPattern.cache[this.path].re[optionKey] = re;
       return re;
     } else {
       return reCache;
@@ -54,47 +54,45 @@ export class PathPattern<P> implements IMatchable<any, P> {
 
   private get reCompile(): PathFunction {
     this.ensureCacheExist();
-    const compileCache: PathFunction | undefined = PathPattern.cache[this.path][this.optionsKey].compile;
-    if (compileCache === undefined) {
+    const compileCache: PathFunction | null = PathPattern.cache[this.path].compile;
+    if (compileCache === null) {
       const compile: PathFunction = pathToRegexp.compile(this.path);
-      PathPattern.cache[this.path][this.optionsKey].compile = compile;
+      PathPattern.cache[this.path].compile = compile;
       return compile;
     } else {
       return compileCache;
     }
   }
 
-  constructor(
-    path: string,
-    private options: ContructorOptions = {},
-  ) {
+  constructor(path: string) {
     // make sure path start with '/'
     this.path = '/' + path.replace(/^(\/+)/, '');
-    const { exact = false, strict = false } = options;
-    this.matchOptions = { end: exact, strict };
   }
 
-  match(location: Location): Match<P> {
-    const match: RegExpExecArray | null = this.re.exec(location.pathname);
+  match(options: MatchOptions = {}): (location: Location) => Match<P> {
+    return (location: Location) => {
+      const re: PathRegExp = this.getRe(options);
+      const match: RegExpExecArray | null = re.exec(location.pathname);
 
-    if (!match) {
-      return false;
-    }
+      if (!match) {
+        return false;
+      }
 
-    const [url, ...values]: RegExpExecArray = match;
-    const isExact: boolean = location.pathname === url;
+      const [url, ...values]: RegExpExecArray = match;
+      const isExact: boolean = location.pathname === url;
 
-    return {
-      path: this.path, // the path pattern used to match
-      url: (this.path === '/' && url === '') ? '/' : url, // the matched portion of the URL
-      isExact, // whether or not we matched exactly
-      params: this.re.keys.reduce(
-        (memo: any, key: Key, index: number) => {
-          memo[key.name] = values[index];
-          return memo;
-        },
-        {},
-      ),
+      return {
+        path: this.path, // the path pattern used to match
+        url: (this.path === '/' && url === '') ? '/' : url, // the matched portion of the URL
+        isExact, // whether or not we matched exactly
+        params: re.keys.reduce(
+          (memo: any, key: Key, index: number) => {
+            memo[key.name] = values[index];
+            return memo;
+          },
+          {},
+        ),
+      };
     };
   }
 
@@ -110,16 +108,12 @@ export class PathPattern<P> implements IMatchable<any, P> {
     return '/' + this.path.replace(/(\/+)$/, '').replace(/^(\/+)/, '');
   }
 
-  getOptions(): ContructorOptions {
-    return this.options;
-  }
-
   private ensureCacheExist(): void {
     if (!PathPattern.cache[this.path]) {
-      PathPattern.cache[this.path] = {};
-    }
-    if (!PathPattern.cache[this.path][this.optionsKey]) {
-      PathPattern.cache[this.path][this.optionsKey] = {};
+      PathPattern.cache[this.path] = {
+        re: {},
+        compile: null,
+      };
     }
   }
 
