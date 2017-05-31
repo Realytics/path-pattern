@@ -1,6 +1,5 @@
 import * as pathToRegexp from 'path-to-regexp';
 import { PathRegExp, PathFunction, RegExpOptions, ParseOptions, Key } from 'path-to-regexp';
-import { Match } from './interface.d';
 import { Location } from 'history';
 
 export type MatchSuccess<P> = {
