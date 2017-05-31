@@ -16,7 +16,7 @@
     "router"
   ],
   "scripts": {
-    "clean": "rimraf lib",
+    "clean": "rimraf lib && rimraf generated-docs",
     "build": "NODE_ENV=production npm run clean && NODE_ENV=production webpack lib/index.js",
     "build-stats": "NODE_ENV=production npm run clean && NODE_ENV=production webpack lib/index.js --json > stats.json",
     "prepare": "npm run build",
@@ -41,6 +41,8 @@
     "ts-loader": "^2.1.0",
     "tslint": "^5.3.2",
     "tslint-loader": "^3.5.3",
+    "typedoc": "^0.7.1",
+    "typedoc-webpack-plugin": "^1.1.4",
     "typescript": "^2.3.3",
     "webpack": "^2.6.1"
   },

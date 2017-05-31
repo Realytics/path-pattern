@@ -1,6 +1,7 @@
 /coverage
 /examples
 /test
+/generated-docs
 webpack.config.js
 tsconfig.json
 stats.json

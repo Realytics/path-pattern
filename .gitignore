@@ -61,4 +61,5 @@ typings/
 
 # build
 lib
+generated-docs
 stats.json
