@@ -71,6 +71,9 @@ export class PathPattern<P> implements IMatchable<any, P> {
 
   match(options: MatchOptions = {}): (location: Location) => Match<P> {
     return (location: Location) => {
+      if (!location || !location.pathname) {
+        return false;
+      }
       const re: PathRegExp = this.getRe(options);
       const match: RegExpExecArray | null = re.exec(location.pathname);
 
