@@ -20,16 +20,22 @@ export type CacheContainer = {
   [key: string]: { [key: string]: { re?: PathRegExp, compile?: PathFunction } };
 };
 
-export class PathPattern<P> {
+export interface IMatchable<ParentParams, Params> {
+  match(location: Location, parentMatch: Match<ParentParams>): Match<Params>;
+}
+
+export class PathPattern<P> implements IMatchable<any, P> {
 
   static cache: CacheContainer = {};
 
-  private options: RegExpOptions & ParseOptions;
+  private matchOptions: RegExpOptions & ParseOptions;
   private _optionsKey: string;
+
+  private path: string;
 
   private get optionsKey(): string {
     if (!this._optionsKey) {
-      this._optionsKey = `${this.options.end}-${this.options.strict}`;
+      this._optionsKey = `${this.matchOptions.end}-${this.matchOptions.strict}`;
     }
     return this._optionsKey;
   }
@@ -38,7 +44,7 @@ export class PathPattern<P> {
     this.ensureCacheExist();
     const reCache: PathRegExp | undefined = PathPattern.cache[this.path][this.optionsKey].re;
     if (reCache === undefined) {
-      const re: PathRegExp = pathToRegexp(this.path, this.options);
+      const re: PathRegExp = pathToRegexp(this.path, this.matchOptions);
       PathPattern.cache[this.path][this.optionsKey].re = re;
       return re;
     } else {
@@ -59,11 +65,13 @@ export class PathPattern<P> {
   }
 
   constructor(
-    private path: string,
-    options: ContructorOptions = {},
+    path: string,
+    private options: ContructorOptions = {},
   ) {
+    // make sure path start with '/'
+    this.path = '/' + path.replace(/^(\/+)/, '');
     const { exact = false, strict = false } = options;
-    this.options = { end: exact, strict };
+    this.matchOptions = { end: exact, strict };
   }
 
   match(location: Location): Match<P> {
@@ -92,6 +100,18 @@ export class PathPattern<P> {
 
   compile(params?: P): string {
     return this.reCompile(params);
+  }
+
+  /**
+   * @returns {string} The path starting with / and eding without /
+   * @memberof PathPattern
+   */
+  getFormatedPath(): string {
+    return '/' + this.path.replace(/(\/+)$/, '').replace(/^(\/+)/, '');
+  }
+
+  getOptions(): ContructorOptions {
+    return this.options;
   }
 
   private ensureCacheExist(): void {

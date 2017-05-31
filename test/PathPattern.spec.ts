@@ -27,6 +27,7 @@ describe(`new PathPattern('/home', { exact: true })`, () => {
   it(`does not match '/home/user'`, () => { expect(pattern.match(createLocation('/home/user'))).toBeFalsy(); });
   it(`does not match '/welcome'`, () => { expect(pattern.match(createLocation('/welcome'))).toBeFalsy(); });
   it(`does not match '/'`, () => { expect(pattern.match(createLocation('/'))).toBeFalsy(); });
+  it(`get getFormatedPath`, () => { expect(pattern.getFormatedPath()).toEqual('/home'); });
 });
 
 describe(`new PathPattern('/home/', { exact: true, strict: true })`, () => {
@@ -37,6 +38,8 @@ describe(`new PathPattern('/home/', { exact: true, strict: true })`, () => {
   it(`does not match '/welcome'`, () => { expect(pattern.match(createLocation('/welcome'))).toBeFalsy(); });
   it(`does not match '/'`, () => { expect(pattern.match(createLocation('/'))).toBeFalsy(); });
   it(`compile to '/home'`, () => { expect(pattern.compile()).toEqual('/home/'); });
+  it(`get Options`, () => { expect(pattern.getOptions()).toEqual({ exact: true, strict: true }); });
+  it(`get getFormatedPath`, () => { expect(pattern.getFormatedPath()).toEqual('/home'); });
 });
 
 // create twice the same path for coverage
@@ -71,9 +74,20 @@ describe(`new PathPattern('/user/:user')`, () => {
   it(`compile with user john`, () => {
     expect(pattern.compile({ user: 'john' })).toEqual('/user/john');
   });
+  it(`get getFormatedPath`, () => { expect(pattern.getFormatedPath()).toEqual('/user/:user'); });
 });
 
 describe(`new PathPattern('/')`, () => {
   const pattern = new PathPattern('/');
   it(`match ''`, () => { expect(pattern.match(createLocation(''))).toBeTruthy(); });
+});
+
+describe(`new PathPattern('home')`, () => {
+  const pattern = new PathPattern('home');
+  it(`match '/home/'`, () => { expect(pattern.match(createLocation('/home/'))).toBeTruthy(); });
+  it(`match '/home'`, () => { expect(pattern.match(createLocation('/home'))).toBeTruthy(); });
+  it(`match '/home/user'`, () => { expect(pattern.match(createLocation('/home/user'))).toBeTruthy(); });
+  it(`does not match '/welcome'`, () => { expect(pattern.match(createLocation('/welcome'))).toBeFalsy(); });
+  it(`does not match '/'`, () => { expect(pattern.match(createLocation('/'))).toBeFalsy(); });
+  it(`get getFormatedPath`, () => { expect(pattern.getFormatedPath()).toEqual('/home'); });
 });
