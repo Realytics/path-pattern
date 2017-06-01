@@ -18,10 +18,10 @@ describe('RelativePathPattern', () => {
   const pattern: InheritedPathPattern<{}, {}> = new InheritedPathPattern<{}, {}>(parentPattern, '/user');
 
   it('match /home/user', () => {
-    expect(pattern.match()(createLocation('/home/user'))).toBeTruthy();
+    expect(pattern.match(createLocation('/home/user'))).toBeTruthy();
   });
   it('does not match /home', () => {
-    expect(pattern.match()(createLocation('/home'))).toBeFalsy();
+    expect(pattern.match(createLocation('/home'))).toBeFalsy();
   });
 
 });

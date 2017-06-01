@@ -24,7 +24,10 @@ export type CacheContainer = {
 };
 
 export interface IMatchable<ParentParams, Params> {
-  match(options: MatchOptions): (location: Location, parentMatch: Match<ParentParams>) => Match<Params>;
+  matchAdvanced(options: MatchOptions): (location: Location, parentMatch: Match<ParentParams>) => Match<Params>;
+  match(location: Location, parentMatch: Match<ParentParams>): Match<Params>;
+  matchExact(location: Location, parentMatch: Match<ParentParams>): Match<Params>;
+  matchStrict(location: Location, parentMatch: Match<ParentParams>): Match<Params>;
 }
 
 export class PathPattern<P> implements IMatchable<any, P> {
@@ -78,9 +81,14 @@ export class PathPattern<P> implements IMatchable<any, P> {
   constructor(path: string) {
     // make sure path start with '/'
     this.path = '/' + path.replace(/^(\/+)/, '');
+
+    this.matchAdvanced = this.matchAdvanced.bind(this);
+    this.match = this.match.bind(this);
+    this.matchExact = this.matchExact.bind(this);
+    this.matchStrict = this.matchStrict.bind(this);
   }
 
-  match(options: MatchOptions = {}): (location: Location) => Match<P> {
+  matchAdvanced(options: MatchOptions = {}): (location: Location) => Match<P> {
     return (location: Location) => {
       if (!location || location.pathname === null || location.pathname === undefined) {
         return false;
@@ -108,6 +116,18 @@ export class PathPattern<P> implements IMatchable<any, P> {
         ),
       };
     };
+  }
+
+  match(location: Location): Match<P> {
+    return this.matchAdvanced()(location);
+  }
+
+  matchExact(location: Location): Match<P> {
+    return this.matchAdvanced({ exact: true })(location);
+  }
+
+  matchStrict(location: Location): Match<P> {
+    return this.matchAdvanced({ exact: true, strict: true })(location);
   }
 
   compile(params?: P): string {

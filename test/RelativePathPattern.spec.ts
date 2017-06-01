@@ -29,35 +29,35 @@ describe('RelativePathPattern', () => {
   };
 
   it('match /user/all', () => {
-    expect(pattern.match()(createLocation('/user/all'), parentMatchUser)).toBeTruthy();
+    expect(pattern.match(createLocation('/user/all'), parentMatchUser)).toBeTruthy();
   });
   it('match /user/all/desc', () => {
-    expect(pattern.match()(createLocation('/user/all/desc'), parentMatchUser)).toBeTruthy();
+    expect(pattern.match(createLocation('/user/all/desc'), parentMatchUser)).toBeTruthy();
   });
   it('does not match /user', () => {
-    expect(pattern.match()(createLocation('/user'), parentMatchUser)).toBeFalsy();
+    expect(pattern.match(createLocation('/user'), parentMatchUser)).toBeFalsy();
   });
   it('match /post/all', () => {
-    expect(pattern.match()(createLocation('/post/all'), parentMatchPost)).toBeTruthy();
+    expect(pattern.match(createLocation('/post/all'), parentMatchPost)).toBeTruthy();
   });
   it('does not match /post', () => {
-    expect(pattern.match()(createLocation('/post'), parentMatchPost)).toBeFalsy();
+    expect(pattern.match(createLocation('/post'), parentMatchPost)).toBeFalsy();
   });
   it('does not match if no parentMatch', () => {
-    expect(pattern.match()(createLocation('/post/all'), false)).toBeFalsy();
+    expect(pattern.match(createLocation('/post/all'), false)).toBeFalsy();
   });
   it('compile', () => {
     expect(pattern.compile(new PathPattern('/post'))).toEqual('/post/all');
   });
 
   it('match /user/all', () => {
-    expect(pattern.match({ exact: true })(createLocation('/user/all'), parentMatchUser)).toBeTruthy();
+    expect(pattern.matchExact(createLocation('/user/all'), parentMatchUser)).toBeTruthy();
   });
   it('match /user/all/desc', () => {
-    expect(pattern.match({ exact: true })(createLocation('/user/all/desc'), parentMatchUser)).toBeFalsy();
+    expect(pattern.matchExact(createLocation('/user/all/desc'), parentMatchUser)).toBeFalsy();
   });
   it('does not match /user', () => {
-    expect(pattern.match({ exact: true })(createLocation('/user'), parentMatchUser)).toBeFalsy();
+    expect(pattern.matchExact(createLocation('/user'), parentMatchUser)).toBeFalsy();
   });
 
 });

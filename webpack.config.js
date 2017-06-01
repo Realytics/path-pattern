@@ -1,7 +1,6 @@
 var path = require('path');
 var webpack = require('webpack');
 var process = require('process');
-var TypedocWebpackPlugin = require('typedoc-webpack-plugin');
 
 var env = process.env.NODE_ENV;
 
@@ -23,10 +22,7 @@ var config = {
   },
 
   plugins: [
-    new webpack.optimize.OccurrenceOrderPlugin(),
-    new TypedocWebpackPlugin({
-      out: path.join(__dirname, 'generated-docs'),
-    }, './src')
+    new webpack.optimize.OccurrenceOrderPlugin()
   ],
 
   module: {

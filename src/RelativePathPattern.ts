@@ -5,9 +5,14 @@ import { InheritedPathPattern } from './InheritedPathPattern';
 export class RelativePathPattern<ParentParams, Params>
   implements IMatchable<ParentParams, Params> {
 
-  constructor(private path: string) {}
+  constructor(private path: string) {
+    this.matchAdvanced = this.matchAdvanced.bind(this);
+    this.match = this.match.bind(this);
+    this.matchExact = this.matchExact.bind(this);
+    this.matchStrict = this.matchStrict.bind(this);
+  }
 
-  match(options: MatchOptions = {}): (location: Location, parentMatch: Match<ParentParams>) => Match<Params> {
+  matchAdvanced(options: MatchOptions = {}): (location: Location, parentMatch: Match<ParentParams>) => Match<Params> {
     return (location: Location, parentMatch: Match<ParentParams>) => {
       if (parentMatch === false) {
         return false;
@@ -17,8 +22,20 @@ export class RelativePathPattern<ParentParams, Params>
         parentPattern,
         this.path,
       );
-      return pattern.match(options)(location);
+      return pattern.matchAdvanced(options)(location);
     };
+  }
+
+  match(location: Location, parentMatch: Match<ParentParams>): Match<Params> {
+    return this.matchAdvanced()(location, parentMatch);
+  }
+
+  matchExact(location: Location, parentMatch: Match<ParentParams>): Match<Params> {
+    return this.matchAdvanced({ exact: true })(location, parentMatch);
+  }
+
+  matchStrict(location: Location, parentMatch: Match<ParentParams>): Match<Params> {
+    return this.matchAdvanced({ exact: true, strict: true })(location, parentMatch);
   }
 
   compile(parentPattern: PathPattern<ParentParams>, params?: ParentParams & Params): string {
