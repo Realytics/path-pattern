@@ -31,6 +31,17 @@ export class PathPattern<P> implements IMatchable<any, P> {
 
   static cache: CacheContainer = {};
 
+  static matchOneOf(...matchers: ((location: Location) => Match<any>)[]): (location: Location) => Match<any> {
+    return (location: Location) => {
+      return matchers.reduce<Match<any>>((acc, matcher) => {
+        if (acc !== false) {
+          return acc;
+        }
+        return matcher(location);
+      }, false);
+    };
+  }
+
   private path: string;
 
   private getOptionsKey(options: MatchOptions): string {
