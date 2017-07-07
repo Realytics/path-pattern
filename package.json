@@ -1,6 +1,6 @@
 {
   "name": "path-pattern",
-  "version": "0.7.1",
+  "version": "0.8.0",
   "description": "A url matching lib to go with Realytics/react-router-magic",
   "author": "Etienne Dldc <etienne.dldc@outlook.fr>",
   "license": "MIT",
@@ -22,7 +22,9 @@
     "prepare": "npm run build",
     "test": "jest",
     "test:watch": "yarn test -- --watch",
-    "test:cov": "yarn test -- --coverage"
+    "test:cov": "yarn test -- --coverage",
+    "lint": "tslint \"src/**/*.ts?(x)\" \"test/**/*.ts?(x)\" -t stylish",
+    "lint:fix": "yarn lint -- --fix"
   },
   "repository": {
     "type": "git",
@@ -53,7 +55,13 @@
     "transform": {
       "\\.(ts|tsx)$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
     },
-    "testRegex": "(/test/.*\\.spec.(ts|tsx|js))$",
+    "collectCoverageFrom": [
+      "src/**/*"
+    ],
+    "coveragePathIgnorePatterns": [
+      "/src/.*\\.d\\.ts$"
+    ],
+    "testRegex": "/test/.*\\.spec\\.(ts|tsx|js)$",
     "mapCoverage": true
   },
   "bugs": {

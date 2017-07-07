@@ -1,6 +1,5 @@
-import { InheritedPathPattern } from '../src/InheritedPathPattern';
-import { PathPattern, Match } from '../src/PathPattern';
 import { Location } from 'history';
+import { InheritedPathPattern, PathPattern } from '../src';
 
 function createLocation(path: string = ''): Location {
   return {
@@ -14,8 +13,8 @@ function createLocation(path: string = ''): Location {
 
 describe('RelativePathPattern', () => {
 
-  const parentPattern: PathPattern<{}> = new PathPattern<{}>('/home');
-  const pattern: InheritedPathPattern<{}, {}> = new InheritedPathPattern<{}, {}>(parentPattern, '/user');
+  const parentPattern = new PathPattern('/home');
+  const pattern = new InheritedPathPattern(parentPattern, '/user');
 
   it('match /home/user', () => {
     expect(pattern.match(createLocation('/home/user'))).toBeTruthy();
