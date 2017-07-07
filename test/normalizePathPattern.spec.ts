@@ -8,6 +8,14 @@ describe(`normalizePathPattern`, () => {
     expect(normalizePathPattern('home', { sensitive: false })).toEqual('/home');
   });
 
+  it('replace multiple slash at the begin by one slash', () => {
+    expect(normalizePathPattern('//home')).toEqual('/home');
+    expect(normalizePathPattern('///home')).toEqual('/home');
+    expect(normalizePathPattern('////home')).toEqual('/home');
+    expect(normalizePathPattern('//home', { strict: true })).toEqual('/home');
+    expect(normalizePathPattern('//home', { sensitive: false })).toEqual('/home');
+  });
+
   it('strips trailing slash on strict: false', () => {
     expect(normalizePathPattern('home/', { strict: true })).toEqual('/home/');
     expect(normalizePathPattern('home/', { strict: false })).toEqual('/home');

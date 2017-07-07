@@ -24,3 +24,17 @@ describe('RelativePathPattern', () => {
   });
 
 });
+
+describe('RelativePathPattern with /', () => {
+
+  const parentPattern = new PathPattern('/');
+  const pattern = new InheritedPathPattern(parentPattern, '/user');
+
+  it('match /user', () => {
+    expect(pattern.match(createLocation('/user'))).toBeTruthy();
+  });
+  it('does not match /', () => {
+    expect(pattern.match(createLocation('/'))).toBeFalsy();
+  });
+
+});

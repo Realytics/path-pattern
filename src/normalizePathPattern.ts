@@ -15,16 +15,22 @@ export type PathNormalizeOptions = {
 export function normalizePathPattern(pattern: string, options: PathNormalizeOptions = {}): string {
   const { sensitive = false, strict = true } = options;
 
-  let normalizedPath = '/' + (pattern[0] === '/' ? pattern.substr(1) : pattern);
+  let normalizedPattern = pattern;
+
+  while (normalizedPattern[0] === '/') {
+    normalizedPattern = normalizedPattern.substr(1);
+  }
+
+  normalizedPattern = '/' + normalizedPattern;
 
   if (!sensitive) {
-    normalizedPath = normalizedPath.toLowerCase();
+    normalizedPattern = normalizedPattern.toLowerCase();
   }
 
   if (!strict) {
-    normalizedPath = normalizedPath.length > 1 && normalizedPath[normalizedPath.length - 1] === '/' ?
-      normalizedPath.substr(0, normalizedPath.length - 1) : normalizedPath;
+    normalizedPattern = normalizedPattern.length > 1 && normalizedPattern[normalizedPattern.length - 1] === '/' ?
+      normalizedPattern.substr(0, normalizedPattern.length - 1) : normalizedPattern;
   }
 
-  return normalizedPath;
+  return normalizedPattern;
 }
