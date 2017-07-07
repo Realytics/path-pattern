@@ -1,3 +1,10 @@
-export { PathPattern, Match, MatchSuccess, MatchOptions, IMatchable } from './PathPattern';
+export { AbstractPathPattern } from './AbstractPathPattern';
+export { PathPattern } from './PathPattern';
+export { Match, MatchSuccess } from './Match';
+export { MatchOptions, Matchable, RelativeMatchable } from './Matchable';
+export { Matcher } from './Matcher';
+export { PatternAware } from './PatternAware';
+export { normalizePathPattern } from './normalizePathPattern';
+export { matchOneOf } from './matchOneOf';
 export { InheritedPathPattern } from './InheritedPathPattern';
 export { RelativePathPattern } from './RelativePathPattern';

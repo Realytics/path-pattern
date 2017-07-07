@@ -3,7 +3,7 @@
 
 This is a a wrapper aroud [path-to-regexp](https://github.com/pillarjs/path-to-regexp).
 
-## This package is not Production ready !
+## This package is not Production ready!
 
 This package is under developement, do not use it in production. 
 

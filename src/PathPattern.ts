@@ -1,116 +1,44 @@
-import * as pathToRegexp from 'path-to-regexp';
-import { PathRegExp, PathFunction, RegExpOptions, ParseOptions, Key } from 'path-to-regexp';
 import { Location } from 'history';
+import * as pathToRegexp from 'path-to-regexp';
+import { Key, ParseOptions, PathFunction, PathRegExp, RegExpOptions } from 'path-to-regexp';
+import { AbstractPathPattern } from './AbstractPathPattern';
+import { Match } from './Match';
+import { MatchOptions } from './Matchable';
+import { Matcher } from './Matcher';
 
-export type MatchSuccess<P> = {
-  params: P;
-  isExact: boolean;
-  path: string;
-  url: string;
-};
-
-export type Match<P> = false | MatchSuccess<P>;
-
-export type MatchOptions = {
-  exact?: boolean;
-  strict?: boolean;
-};
-
-export type CacheContainer = {
+type CacheContainer = {
   [key: string]: {
     compile: PathFunction | null,
     re: { [key: string]: PathRegExp },
   };
 };
 
-export interface IMatchable<ParentParams, Params> {
-  matchAdvanced(options: MatchOptions): (location: Location, parentMatch: Match<ParentParams>) => Match<Params>;
-  match(location: Location, parentMatch: Match<ParentParams>): Match<Params>;
-  matchExact(location: Location, parentMatch: Match<ParentParams>): Match<Params>;
-  matchStrict(location: Location, parentMatch: Match<ParentParams>): Match<Params>;
-}
+export class PathPattern<Params = any> extends AbstractPathPattern<Params> {
 
-export class PathPattern<P> implements IMatchable<any, P> {
+  private static cache: CacheContainer = {};
 
-  static cache: CacheContainer = {};
-
-  static matchOneOf(...matchers: ((location: Location) => Match<any>)[]): (location: Location) => Match<any> {
-    return (location: Location) => {
-      return matchers.reduce<Match<any>>((acc, matcher) => {
-        if (acc !== false) {
-          return acc;
-        }
-        return matcher(location);
-      }, false);
-    };
-  }
-
-  private path: string;
-
-  private getOptionsKey(options: MatchOptions): string {
-    return `${options.exact}-${options.strict}`;
-  }
-
-  private getRe(options: MatchOptions): PathRegExp {
-    this.ensureCacheExist();
-    const optionKey: string = this.getOptionsKey(options);
-    const reCache: PathRegExp | undefined = PathPattern.cache[this.path].re[optionKey];
-    if (reCache === undefined) {
-      const { exact = false, strict = false } = options;
-      const matchOptions: RegExpOptions & ParseOptions = { end: exact, strict };
-      const re: PathRegExp = pathToRegexp(this.path, matchOptions);
-      PathPattern.cache[this.path].re[optionKey] = re;
-      return re;
-    } else {
-      return reCache;
-    }
-  }
-
-  private get reCompile(): PathFunction {
-    this.ensureCacheExist();
-    const compileCache: PathFunction | null = PathPattern.cache[this.path].compile;
-    if (compileCache === null) {
-      const compile: PathFunction = pathToRegexp.compile(this.path);
-      PathPattern.cache[this.path].compile = compile;
-      return compile;
-    } else {
-      return compileCache;
-    }
-  }
-
-  constructor(path: string) {
-    // make sure path start with '/'
-    this.path = '/' + path.replace(/^(\/+)/, '');
-
-    this.matchAdvanced = this.matchAdvanced.bind(this);
-    this.match = this.match.bind(this);
-    this.matchExact = this.matchExact.bind(this);
-    this.matchStrict = this.matchStrict.bind(this);
-  }
-
-  matchAdvanced(options: MatchOptions = {}): (location: Location) => Match<P> {
+  matchAdvanced(options: MatchOptions = {}): Matcher<Params> {
     return (location: Location) => {
       if (!location || location.pathname === null || location.pathname === undefined) {
         return false;
       }
-      const re: PathRegExp = this.getRe(options);
-      const match: RegExpExecArray | null = re.exec(location.pathname);
+      const regExp = this.getRegExp(options);
+      const match = regExp.exec(location.pathname);
 
       if (!match) {
         return false;
       }
 
-      const [url, ...values]: RegExpExecArray = match;
-      const isExact: boolean = location.pathname === url;
+      const [url, ...values] = match;
 
       return {
-        path: this.path, // the path pattern used to match
-        url: (this.path === '/' && url === '') ? '/' : url, // the matched portion of the URL
-        isExact, // whether or not we matched exactly
-        params: re.keys.reduce(
-          (memo: any, key: Key, index: number) => {
-            memo[key.name] = values[index];
-            return memo;
+        path: this.pattern, // the path pattern used to match
+        url: (this.pattern === '/' && url === '') ? '/' : url, // the matched portion of the URL
+        isExact: location.pathname === url, // whether or not we matched exactly
+        params: regExp.keys.reduce(
+          (params: any, key: Key, index: number) => {
+            params[key.name] = values[index];
+            return params;
           },
           {},
         ),
@@ -118,37 +46,60 @@ export class PathPattern<P> implements IMatchable<any, P> {
     };
   }
 
-  match(location: Location): Match<P> {
+  match(location: Location): Match<Params> {
     return this.matchAdvanced()(location);
   }
 
-  matchExact(location: Location): Match<P> {
+  matchExact(location: Location): Match<Params> {
     return this.matchAdvanced({ exact: true })(location);
   }
 
-  matchStrict(location: Location): Match<P> {
+  matchStrict(location: Location): Match<Params> {
     return this.matchAdvanced({ exact: true, strict: true })(location);
   }
 
-  compile(params?: P): string {
-    return this.reCompile(params);
+  compile(params?: Params): string {
+    return this.getRegExpCompile()(params);
   }
 
-  /**
-   * @returns {string} The path starting with / and eding without /
-   * @memberof PathPattern
-   */
-  getFormatedPath(): string {
-    return '/' + this.path.replace(/(\/+)$/, '').replace(/^(\/+)/, '');
+  private getRegExp(options: MatchOptions): PathRegExp {
+    this.ensureCacheExist();
+    const optionKey = `${options.exact}-${options.strict}`;
+    const regExpCache: PathRegExp | undefined = PathPattern.cache[this.pattern].re[optionKey];
+
+    if (regExpCache === undefined) {
+      const { exact = false, strict = false } = options;
+      const matchOptions: RegExpOptions & ParseOptions = { end: exact, strict };
+
+      const regExp = pathToRegexp(this.pattern, matchOptions);
+      PathPattern.cache[this.pattern].re[optionKey] = regExp;
+
+      return regExp;
+    } else {
+      return regExpCache;
+    }
+  }
+
+  private getRegExpCompile(): PathFunction {
+    this.ensureCacheExist();
+    const compileCache: PathFunction | null = PathPattern.cache[this.pattern].compile;
+
+    if (compileCache === null) {
+      const compile = pathToRegexp.compile(this.pattern);
+      PathPattern.cache[this.pattern].compile = compile;
+
+      return compile;
+    } else {
+      return compileCache;
+    }
   }
 
   private ensureCacheExist(): void {
-    if (!PathPattern.cache[this.path]) {
-      PathPattern.cache[this.path] = {
+    if (!PathPattern.cache[this.pattern]) {
+      PathPattern.cache[this.pattern] = {
         re: {},
         compile: null,
       };
     }
   }
-
 }

@@ -1,14 +1,13 @@
+import { normalizePathPattern } from './normalizePathPattern';
 import { PathPattern } from './PathPattern';
 
-export class InheritedPathPattern<ParentParams, Params> extends PathPattern<ParentParams & Params> {
+export class InheritedPathPattern<ParentParams = any, Params = any> extends PathPattern<ParentParams & Params> {
 
   constructor(
-    parentPath: PathPattern<ParentParams>,
-    path: string,
+    parentPathPattern: PathPattern<ParentParams>,
+    pattern: string
   ) {
-    const subPath: string = '/' + path.replace(/^(\/+)/, '');
-    const combinedPath: string = parentPath.getFormatedPath() + subPath;
-    super(combinedPath);
+    super(parentPathPattern.getPattern() + normalizePathPattern(pattern));
   }
 
 }

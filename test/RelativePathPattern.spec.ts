@@ -1,16 +1,5 @@
-import { RelativePathPattern } from '../src/RelativePathPattern';
-import { PathPattern, Match } from '../src/PathPattern';
-import { Location } from 'history';
-
-function createLocation(path: string = ''): Location {
-  return {
-    pathname: path,
-    hash: '',
-    key: '0uicnx',
-    search: '',
-    state: null,
-  };
-}
+import { Match, PathPattern, RelativePathPattern } from '../src';
+import { createLocation } from './utils/createLocation';
 
 describe('RelativePathPattern', () => {
 
@@ -50,14 +39,21 @@ describe('RelativePathPattern', () => {
     expect(pattern.compile(new PathPattern('/post'))).toEqual('/post/all');
   });
 
-  it('match /user/all', () => {
+  it('match exact /user/all', () => {
     expect(pattern.matchExact(createLocation('/user/all'), parentMatchUser)).toBeTruthy();
   });
-  it('match /user/all/desc', () => {
+  it('match exact /user/all/desc', () => {
     expect(pattern.matchExact(createLocation('/user/all/desc'), parentMatchUser)).toBeFalsy();
   });
-  it('does not match /user', () => {
+  it('does not match exact /user', () => {
     expect(pattern.matchExact(createLocation('/user'), parentMatchUser)).toBeFalsy();
+  });
+
+  it('match strict /user', () => {
+    expect(pattern.matchStrict(createLocation('/user/all'), parentMatchUser)).toBeTruthy();
+  });
+  it('does not match strict /user/', () => {
+    expect(pattern.matchStrict(createLocation('/user/all/'), parentMatchUser)).toBeFalsy();
   });
 
 });
