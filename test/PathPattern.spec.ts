@@ -94,6 +94,16 @@ describe(`new PathPattern('/user/:user')`, () => {
   it(`get getPattern`, () => { expect(pattern.getPattern()).toEqual('/user/:user'); });
 });
 
+describe(`new PathPattern('/user/:userName')`, () => {
+  const pattern = new PathPattern('/user/:userName');
+  it(`compile with user userName`, () => {
+    expect(pattern.compile({ userName: 'jane' })).toEqual('/user/jane');
+  });
+  it(`compile with user username`, () => {
+    expect(pattern.compile({ username: 'john' })).toEqual('/user/john');
+  });
+});
+
 describe(`new PathPattern('/')`, () => {
   const pattern = new PathPattern('/');
   it(`match ''`, () => { expect(pattern.match(createLocation(''))).toBeTruthy(); });
