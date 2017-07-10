@@ -100,7 +100,9 @@ describe(`new PathPattern('/user/:userName')`, () => {
     expect(pattern.compile({ userName: 'jane' })).toEqual('/user/jane');
   });
   it(`compile with user username`, () => {
-    expect(pattern.compile({ username: 'john' })).toEqual('/user/john');
+    expect(() => {
+      pattern.compile({ username: 'john' });
+    }).toThrowErrorMatchingSnapshot();
   });
 });
 

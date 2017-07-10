@@ -59,13 +59,7 @@ export class PathPattern<Params = any> extends AbstractPathPattern<Params> {
   }
 
   compile(params?: Params): string {
-    const normalizedParams: { [key: string]: any } = params ? (
-      Object.keys(params).reduce((acc: { [key: string]: any }, key) => {
-        acc[key.toLocaleLowerCase()] = ((params as any)[key] ? (params as any)[key] : null);
-        return acc;
-      }, {})
-    ) : {};
-    return this.getRegExpCompile()(normalizedParams);
+    return this.getRegExpCompile()(params);
   }
 
   private getRegExp(options: MatchOptions): PathRegExp {

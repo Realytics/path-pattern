@@ -10,3 +10,5 @@ Object {
   "url": "/user/john",
 }
 `;
+
+exports[`new PathPattern('/user/:userName') compile with user username 1`] = `"Expected \\"userName\\" to be defined"`;

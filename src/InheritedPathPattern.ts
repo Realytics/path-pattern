@@ -7,7 +7,10 @@ export class InheritedPathPattern<ParentParams = any, Params = any> extends Path
     parentPathPattern: PathPattern<ParentParams>,
     pattern: string
   ) {
-    super(parentPathPattern.getPattern() + normalizePathPattern(pattern));
+    super(
+      parentPathPattern.getPattern() +
+      normalizePathPattern(pattern)
+    );
   }
 
 }
