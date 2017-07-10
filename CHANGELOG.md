@@ -1,3 +1,7 @@
+## v0.9.0
+### Breaking changes:
+ * Removing `sensitive` option in `normalizePathPattern` because it cause probles with params names.
+
 ## v0.8.0
 ### Changes:
  * Publish `normalizePathPattern` function
