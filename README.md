@@ -1,11 +1,15 @@
 # Path Pattern
+[![Build Status](https://travis-ci.org/Realytics/path-pattern.svg?branch=master)](https://travis-ci.org/Realytics/path-pattern)
+[![npm](https://img.shields.io/npm/dm/localeval.svg)](https://github.com/Realytics/path-pattern)
+
 > A small library to match and compile paths
 
 This is a a wrapper around [path-to-regexp](https://github.com/pillarjs/path-to-regexp).
 
-## This package is not Production ready!
+## This package is ~~not~~ almost production ready!
 
-This package is under developement, do not use it in production. 
+Even if we use this package in production at [Realytics](https://www.realytics.io/) we can't garanty it wont break.
+If you want to use this, do it carefully and feel free to report issue so we can improve it 😉.
 
 ## Prerequisites
 
@@ -25,8 +29,7 @@ yarn add path-pattern
 
 ## Motivations
 
-This package is made to work with [react-router-magic](https://github.com/Realytics/react-router-magic).
-It provide the same functionnalyties as `react-router`'s path props.
+This package was originally made to work with [react-router-magic](https://github.com/Realytics/react-router-magic) but can be used sparatly.  
 
 ## Import in your project
 
@@ -46,31 +49,63 @@ const PathPattern = require('path-pattern').PathPattern;
 
 ## Usage
 
+### Basic example
+
 ```js
-// a simple pattern
-
+// let's create a simple pattern
 const homePattern = new PathPattern('/home');
-// test if the path match with a location
-homePattern.match({ pathname: '/home' }) // { path: '/home', url: '/home', isExact: true, params: {} }
-// match test only the start :
-homePattern.match({ pathname: '/home/hello' }) // { path: '/home', url: '/home', isExact: false, params: {} }
-// you can use matchExact to match only exact path
-homePattern.matchExact({ pathname: '/home' }) // { path: '/home', url: '/home', isExact: true, params: {} }
-homePattern.matchExact({ pathname: '/home/hello' }) // false
-// compile it
-homePattern.compile() // '/home'
 
+// test if the path match with a location
+homePattern.match({ pathname: '/home' })
+// => { path: '/home', url: '/home', isExact: true, params: {} }
+
+// match only the start of the path :
+homePattern.match({ pathname: '/home/hello' })
+// => { path: '/home', url: '/home', isExact: false, params: {} }
+
+// you can use matchExact to match only exact path
+homePattern.matchExact({ pathname: '/home' })
+// => { path: '/home', url: '/home', isExact: true, params: {} }
+
+homePattern.matchExact({ pathname: '/home/hello' })
+// => false
+
+// You can get a path from a pattern with compile
+// this is more useful when parameters are envolved (see bellow)
+homePattern.compile()
+// => '/home'
+```
+
+### Pattern with parameters
+
+```js
 // A pattern with params
 const userPattern = new PathPattern('/user/:user');
-userPattern.match({ pathname: '/user' }) // false
-userPattern.match({ pathname: '/user/john' }) // { path: '/user/:user', url: '/user/john', isExact: true, params: { user: 'john' } }
-// compile it
-userPattern.compile({ user: 'john' }) // '/user/john'
 
+userPattern.match({ pathname: '/user' })
+// => false
+
+userPattern.match({ pathname: '/user/john' })
+// => { path: '/user/:user', url: '/user/john', isExact: true, params: { user: 'john' } }
+
+// you can pass params value to compile it
+userPattern.compile({ user: 'john' })
+// => '/user/john'
+```
+
+### Inherited pattern
+
+```js
 // A pattern that inherite from another
 const pagePattern = new InheritedPathPattern(homePattern, '/:page');
-pagePattern.match({ pathname: '/home/hello' }) // { path: '/home/:page', url: '/home/hello', isExact: true, params: { page: 'hello' } }
-pagePattern.compile({ page: 'yolo' }) // '/home/yolo'
+
+pagePattern.match({ pathname: '/home/hello' })
+// => { path: '/home/:page', url: '/home/hello', isExact: true, params: { page: 'hello' } }
+
+// compile works as expected
+pagePattern.compile({ page: 'yolo' })
+// => '/home/yolo'
+
 ```
 
 ## Versioning
