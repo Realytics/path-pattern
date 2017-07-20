@@ -8,7 +8,7 @@ This is a a wrapper around [path-to-regexp](https://github.com/pillarjs/path-to-
 
 ## This package is ~~not~~ almost production ready!
 
-Even if we use this package in production at [Realytics](https://www.realytics.io/) we can't garanty it wont break.
+Even if we use this package in production at [Realytics](https://www.realytics.io/) we can't garanty it won't break.
 If you want to use this, do it carefully and feel free to report issue so we can improve it 😉.
 
 ## Prerequisites
