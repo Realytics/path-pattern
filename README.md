@@ -38,108 +38,14 @@ This package was originally made to work with [react-router-magic](https://githu
 > Note : If you use Typescript, typings are include in the package !
 
 ```js
-import { PathPattern } from 'path-pattern';
+import { createPattern } from 'path-pattern';
 ```
 
 ### Node
 
 ```js
-const PathPattern = require('path-pattern').PathPattern;
+const createPattern = require('path-pattern').createPattern;
 ```
-
-## Usage
-
-### Basic example
-
-```js
-import { PathPattern } from 'path-pattern';
-
-// let's create a simple pattern
-const homePattern = new PathPattern('/home');
-
-// test if the path match with a location
-homePattern.match({ pathname: '/home' })
-// => { path: '/home', url: '/home', isExact: true, params: {} }
-
-// match only the start of the path :
-homePattern.match({ pathname: '/home/hello' })
-// => { path: '/home', url: '/home', isExact: false, params: {} }
-
-// you can use matchExact to match only exact path
-homePattern.matchExact({ pathname: '/home' })
-// => { path: '/home', url: '/home', isExact: true, params: {} }
-
-homePattern.matchExact({ pathname: '/home/hello' })
-// => false
-
-// You can get a path from a pattern with compile
-// this is more useful when parameters are envolved (see bellow)
-homePattern.compile()
-// => '/home'
-```
-
-### Pattern with parameters
-
-```js
-import { PathPattern } from 'path-pattern';
-
-// A pattern with params
-const userPattern = new PathPattern('/user/:user');
-
-userPattern.match({ pathname: '/user' })
-// => false
-
-userPattern.match({ pathname: '/user/john' })
-// => { path: '/user/:user', url: '/user/john', isExact: true, params: { user: 'john' } }
-
-// you can pass params value to compile it
-userPattern.compile({ user: 'john' })
-// => '/user/john'
-```
-
-### Inherited pattern
-
-```js
-import { InheritedPathPattern } from 'path-pattern';
-
-// A pattern that inherite from another
-const pagePattern = new InheritedPathPattern(homePattern, '/:page');
-
-pagePattern.match({ pathname: '/home/hello' })
-// => { path: '/home/:page', url: '/home/hello', isExact: true, params: { page: 'hello' } }
-
-// compile works as expected
-pagePattern.compile({ page: 'yolo' })
-// => '/home/yolo'
-
-```
-
-## API
-
-### `Matcher` (type)
-
-> `(location: Location) => Match;`
-
-A matcher is a function that take a location (a string or a [https://github.com/ReactTraining/history](Location object)) and return a Match object or false.
-
-### `Match` (type)
-
-> `false | { params, isExact, path, url }`
-
-An object that represent the result of a `Matcher`. If the path doesn't match it's false, if it does it's an object.
-
-### `PathPattern`
-
-#### - `constructor(pattern: string)`
-
-#### - `matchAdvanced(options): Matcher`
-
-- `options`: Object `{ exact?: boolean; strict?: boolean; }`  
-- `returns`: A `Matcher` function
-
-#### - ``
-
-#### 
 
 ## Versioning
 
