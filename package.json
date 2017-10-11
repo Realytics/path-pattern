@@ -6,15 +6,7 @@
   "license": "MIT",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
-  "keywords": [
-    "path",
-    "url",
-    "routing",
-    "pattern",
-    "regexp",
-    "matching",
-    "router"
-  ],
+  "keywords": ["path", "url", "routing", "pattern", "regexp", "matching", "router"],
   "scripts": {
     "clean": "./node_modules/.bin/rimraf lib",
     "build": "NODE_ENV=production npm run clean && NODE_ENV=production webpack lib/index.js",
@@ -47,20 +39,12 @@
     "webpack": "^3.7.0"
   },
   "jest": {
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js"
-    ],
+    "moduleFileExtensions": ["ts", "tsx", "js"],
     "transform": {
       "\\.(ts|tsx)$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
     },
-    "collectCoverageFrom": [
-      "src/**/*"
-    ],
-    "coveragePathIgnorePatterns": [
-      "/src/.*\\.d\\.ts$"
-    ],
+    "collectCoverageFrom": ["src/**/*"],
+    "coveragePathIgnorePatterns": ["/src/.*\\.d\\.ts$"],
     "testRegex": "/test/.*\\.spec\\.(ts|tsx|js)$",
     "mapCoverage": true
   },
