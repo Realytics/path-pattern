@@ -78,6 +78,7 @@ export function createPattern<Params>(pattern: string): PathPattern<Params> {
       const keys: Key[] = [];
       const regExp = pathToRegexp(nomalizedPettern, keys, matchOptions);
       cache[nomalizedPettern].re[optionKey] = regExp;
+      cache[nomalizedPettern].keys = keys;
 
       return regExp;
     } else {

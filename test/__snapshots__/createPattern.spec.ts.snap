@@ -3,7 +3,9 @@
 exports[`createPattern('/user/:user') match '/user/john' 1`] = `
 Object {
   "isExact": true,
-  "params": Object {},
+  "params": Object {
+    "user": "john",
+  },
   "path": "/user/:user",
   "url": "/user/john",
 }
