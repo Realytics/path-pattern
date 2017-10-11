@@ -1,8 +1,6 @@
 {
   "defaultSeverity": "warning",
-  "extends": [
-    "tslint:recommended"
-  ],
+  "extends": ["tslint:recommended"],
   "jsRules": {},
   "rules": {
     "trailing-comma": false,
@@ -20,13 +18,7 @@
     "object-literal-shorthand": false,
     "object-literal-sort-keys": false,
     "callable-types": false,
-    "ordered-imports": [
-      true,
-      {
-        "import-sources-order": "lowercase-first",
-        "named-imports-order": "lowercase-first"
-      }
-    ]
+    "ordered-imports": false
   },
   "rulesDirectory": []
 }

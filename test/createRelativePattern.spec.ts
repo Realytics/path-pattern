@@ -1,9 +1,8 @@
-import { Match, PathPattern, RelativePathPattern } from '../src';
+import { Match, PathPattern, createRelativePattern, RelativePathPattern, createPattern } from '../src';
 import { createLocation } from './utils/createLocation';
 
 describe('RelativePathPattern', () => {
-
-  const pattern: RelativePathPattern<any, {}> = new RelativePathPattern('/all');
+  const pattern: RelativePathPattern<any, {}> = createRelativePattern('/all');
   const parentMatchUser: Match<{}> = {
     path: '/user',
     isExact: false,
@@ -36,7 +35,7 @@ describe('RelativePathPattern', () => {
     expect(pattern.match(createLocation('/post/all'), false)).toBeFalsy();
   });
   it('compile', () => {
-    expect(pattern.compile(new PathPattern('/post'))).toEqual('/post/all');
+    expect(pattern.compile(createPattern('/post'))).toEqual('/post/all');
   });
 
   it('match exact /user/all', () => {
@@ -55,5 +54,4 @@ describe('RelativePathPattern', () => {
   it('does not match strict /user/', () => {
     expect(pattern.matchStrict(createLocation('/user/all/'), parentMatchUser)).toBeFalsy();
   });
-
 });

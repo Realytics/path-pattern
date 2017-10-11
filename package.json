@@ -31,20 +31,20 @@
     "url": "git+ssh://git@github.com/Realytics/path-pattern.git"
   },
   "dependencies": {
-    "path-to-regexp": "^1.7.0"
+    "path-to-regexp": "^2.0.0"
   },
   "devDependencies": {
     "@types/history": "^4.6.0",
-    "@types/jest": "^20.0.2",
-    "cross-env": "^5.0.1",
-    "jest": "^20.0.4",
-    "rimraf": "^2.6.1",
-    "ts-jest": "^20.0.7",
-    "ts-loader": "^2.2.2",
-    "tslint": "^5.5.0",
+    "@types/jest": "^21.1.2",
+    "cross-env": "^5.0.5",
+    "jest": "^21.2.1",
+    "rimraf": "^2.6.2",
+    "ts-jest": "^21.1.2",
+    "ts-loader": "^2.3.7",
+    "tslint": "^5.7.0",
     "tslint-loader": "^3.5.3",
-    "typescript": "^2.4.1",
-    "webpack": "^3.1.0"
+    "typescript": "^2.5.3",
+    "webpack": "^3.6.0"
   },
   "jest": {
     "moduleFileExtensions": [

@@ -1,5 +1,5 @@
 import { Location } from 'history';
-import { InheritedPathPattern, PathPattern } from '../src';
+import { createPattern, createInheritedPattern } from '../src';
 
 function createLocation(path: string = ''): Location {
   return {
@@ -12,9 +12,8 @@ function createLocation(path: string = ''): Location {
 }
 
 describe('RelativePathPattern', () => {
-
-  const parentPattern = new PathPattern('/home');
-  const pattern = new InheritedPathPattern(parentPattern, '/user');
+  const parentPattern = createPattern('/home');
+  const pattern = createInheritedPattern(parentPattern, '/user');
 
   it('match /home/user', () => {
     expect(pattern.match(createLocation('/home/user'))).toBeTruthy();
@@ -22,13 +21,11 @@ describe('RelativePathPattern', () => {
   it('does not match /home', () => {
     expect(pattern.match(createLocation('/home'))).toBeFalsy();
   });
-
 });
 
 describe('RelativePathPattern with /', () => {
-
-  const parentPattern = new PathPattern('/');
-  const pattern = new InheritedPathPattern(parentPattern, '/user');
+  const parentPattern = createPattern('/');
+  const pattern = createInheritedPattern(parentPattern, '/user');
 
   it('match /user', () => {
     expect(pattern.match(createLocation('/user'))).toBeTruthy();
@@ -36,5 +33,4 @@ describe('RelativePathPattern with /', () => {
   it('does not match /', () => {
     expect(pattern.match(createLocation('/'))).toBeFalsy();
   });
-
 });

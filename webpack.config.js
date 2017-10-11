@@ -12,18 +12,16 @@ var config = {
 
   output: {
     library: 'PathPattern',
-    libraryTarget: 'umd'
+    libraryTarget: 'umd',
   },
 
   devtool: 'source-map',
 
   resolve: {
-    extensions: ['.js', '.ts', '.tsx']
+    extensions: ['.js', '.ts', '.tsx'],
   },
 
-  plugins: [
-    new webpack.optimize.OccurrenceOrderPlugin()
-  ],
+  plugins: [new webpack.optimize.OccurrenceOrderPlugin()],
 
   module: {
     rules: [
@@ -32,18 +30,18 @@ var config = {
         loader: 'ts-loader',
         include: path.join(__dirname, 'src'),
         options: {
-          configFileName: './tsconfig.json',
+          configFileName: 'tsconfig.json',
           silent: false,
-          visualStudioErrorFormat: true
-        }
+          visualStudioErrorFormat: true,
+        },
       },
       {
         test: /\.tsx?$/,
         loader: 'tslint-loader',
         include: path.join(__dirname, 'src'),
-        enforce: 'pre'
-      }
-    ]
+        enforce: 'pre',
+      },
+    ],
   },
 
   externals: {
@@ -51,9 +49,9 @@ var config = {
       root: 'PathToRegexp',
       commonjs2: 'path-to-regexp',
       commonjs: 'path-to-regexp',
-      amd: 'path-to-regexp'
-    }
-  }
+      amd: 'path-to-regexp',
+    },
+  },
 };
 
 if ('production' === env) {
@@ -65,14 +63,14 @@ if ('production' === env) {
         unsafe: true,
         unsafe_comps: true,
         warnings: false,
-        screw_ie8: false
+        screw_ie8: false,
       },
       mangle: {
-        screw_ie8: false
+        screw_ie8: false,
       },
       output: {
-        screw_ie8: false
-      }
+        screw_ie8: false,
+      },
     })
   );
 }

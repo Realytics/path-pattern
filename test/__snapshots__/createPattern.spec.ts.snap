@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`createPattern('/user/:user') match '/user/john' 1`] = `
+Object {
+  "isExact": true,
+  "params": Object {},
+  "path": "/user/:user",
+  "url": "/user/john",
+}
+`;
+
+exports[`createPattern('/user/:userName') compile with user username 1`] = `"Expected \\"userName\\" to be a string"`;
+
+exports[`createPattern('/user/:userName') does not compile with wrong param 1`] = `"Expected \\"userName\\" to be a string"`;
