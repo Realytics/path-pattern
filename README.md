@@ -29,7 +29,7 @@ yarn add path-pattern
 
 ## Motivations
 
-This package was originally made to work with [react-router-magic](https://github.com/Realytics/react-router-magic) but can be used sparatly.  
+This package was originally made to work with [react-router-magic](https://github.com/Realytics/react-router-magic) but can be used separatly.  
 
 ## Import in your project
 
@@ -52,6 +52,8 @@ const PathPattern = require('path-pattern').PathPattern;
 ### Basic example
 
 ```js
+import { PathPattern } from 'path-pattern';
+
 // let's create a simple pattern
 const homePattern = new PathPattern('/home');
 
@@ -79,6 +81,8 @@ homePattern.compile()
 ### Pattern with parameters
 
 ```js
+import { PathPattern } from 'path-pattern';
+
 // A pattern with params
 const userPattern = new PathPattern('/user/:user');
 
@@ -96,6 +100,8 @@ userPattern.compile({ user: 'john' })
 ### Inherited pattern
 
 ```js
+import { InheritedPathPattern } from 'path-pattern';
+
 // A pattern that inherite from another
 const pagePattern = new InheritedPathPattern(homePattern, '/:page');
 
@@ -107,6 +113,33 @@ pagePattern.compile({ page: 'yolo' })
 // => '/home/yolo'
 
 ```
+
+## API
+
+### `Matcher` (type)
+
+> `(location: Location) => Match;`
+
+A matcher is a function that take a location (a string or a [https://github.com/ReactTraining/history](Location object)) and return a Match object or false.
+
+### `Match` (type)
+
+> `false | { params, isExact, path, url }`
+
+An object that represent the result of a `Matcher`. If the path doesn't match it's false, if it does it's an object.
+
+### `PathPattern`
+
+#### - `constructor(pattern: string)`
+
+#### - `matchAdvanced(options): Matcher`
+
+- `options`: Object `{ exact?: boolean; strict?: boolean; }`  
+- `returns`: A `Matcher` function
+
+#### - ``
+
+#### 
 
 ## Versioning
 
