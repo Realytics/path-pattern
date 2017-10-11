@@ -1,12 +1,20 @@
 {
   "name": "path-pattern",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "A url matching lib to go with Realytics/react-router-magic",
   "author": "Etienne Dldc <etienne.dldc@outlook.fr>",
   "license": "MIT",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
-  "keywords": ["path", "url", "routing", "pattern", "regexp", "matching", "router"],
+  "keywords": [
+    "path",
+    "url",
+    "routing",
+    "pattern",
+    "regexp",
+    "matching",
+    "router"
+  ],
   "scripts": {
     "build": "webpack lib/index.js",
     "build-stats": "NODE_ENV=production webpack lib/index.js --json > stats.json",
@@ -37,12 +45,20 @@
     "webpack": "^3.7.0"
   },
   "jest": {
-    "moduleFileExtensions": ["ts", "tsx", "js"],
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ],
     "transform": {
       "\\.(ts|tsx)$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
     },
-    "collectCoverageFrom": ["src/**/*"],
-    "coveragePathIgnorePatterns": ["/src/.*\\.d\\.ts$"],
+    "collectCoverageFrom": [
+      "src/**/*"
+    ],
+    "coveragePathIgnorePatterns": [
+      "/src/.*\\.d\\.ts$"
+    ],
     "testRegex": "/test/.*\\.spec\\.(ts|tsx|js)$",
     "mapCoverage": true
   },
