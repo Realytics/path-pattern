@@ -35,7 +35,7 @@
   },
   "devDependencies": {
     "@types/history": "^4.6.0",
-    "@types/jest": "^21.1.2",
+    "@types/jest": "20.0.3",
     "cross-env": "^5.0.5",
     "jest": "^21.2.1",
     "rimraf": "^2.6.2",
@@ -44,7 +44,7 @@
     "tslint": "^5.7.0",
     "tslint-loader": "^3.5.3",
     "typescript": "^2.5.3",
-    "webpack": "^3.6.0"
+    "webpack": "^3.7.0"
   },
   "jest": {
     "moduleFileExtensions": [
