@@ -6,19 +6,10 @@
   "license": "MIT",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
-  "keywords": [
-    "path",
-    "url",
-    "routing",
-    "pattern",
-    "regexp",
-    "matching",
-    "router"
-  ],
+  "keywords": ["path", "url", "routing", "pattern", "regexp", "matching", "router"],
   "scripts": {
-    "clean": "./node_modules/.bin/rimraf lib",
-    "build": "NODE_ENV=production npm run clean && NODE_ENV=production webpack lib/index.js",
-    "build-stats": "NODE_ENV=production npm run clean && NODE_ENV=production webpack lib/index.js --json > stats.json",
+    "build": "NODE_ENV=production webpack lib/index.js",
+    "build-stats": "NODE_ENV=production webpack lib/index.js --json > stats.json",
     "prepare": "npm run build",
     "test": "jest",
     "test:watch": "yarn test -- --watch",
@@ -38,7 +29,6 @@
     "@types/jest": "20.0.3",
     "cross-env": "^5.0.5",
     "jest": "^21.2.1",
-    "rimraf": "^2.6.2",
     "ts-jest": "^21.1.2",
     "ts-loader": "^2.3.7",
     "tslint": "^5.7.0",
@@ -47,20 +37,12 @@
     "webpack": "^3.7.0"
   },
   "jest": {
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js"
-    ],
+    "moduleFileExtensions": ["ts", "tsx", "js"],
     "transform": {
       "\\.(ts|tsx)$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
     },
-    "collectCoverageFrom": [
-      "src/**/*"
-    ],
-    "coveragePathIgnorePatterns": [
-      "/src/.*\\.d\\.ts$"
-    ],
+    "collectCoverageFrom": ["src/**/*"],
+    "coveragePathIgnorePatterns": ["/src/.*\\.d\\.ts$"],
     "testRegex": "/test/.*\\.spec\\.(ts|tsx|js)$",
     "mapCoverage": true
   },
