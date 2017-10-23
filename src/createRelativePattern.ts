@@ -1,7 +1,4 @@
-import { Location } from 'history';
-import { Match } from './Match';
-import { MatchOptions } from './Matchable';
-import { RelativePathPattern, PathPattern } from './PathPattern';
+import { Match, Path, MatchOptions, RelativePathPattern, PathPattern } from './types';
 import { normalizePathPattern } from './normalizePathPattern';
 import { createPattern } from './createPattern';
 import { createInheritedPattern } from './createInheritedPattern';
@@ -15,10 +12,8 @@ export function createRelativePattern<ParentParams = any, Params = any>(
     return nomalizedPettern;
   }
 
-  function matchAdvanced(
-    options: MatchOptions = {}
-  ): (location: Location, parentMatch?: Match<ParentParams>) => Match<Params> {
-    return (location, parentMatch = false) => {
+  function matchAdvanced(options: MatchOptions = {}): (path: Path, parentMatch?: Match<ParentParams>) => Match<Params> {
+    return (path: Path, parentMatch = false) => {
       if (parentMatch === false) {
         return false;
       }
@@ -26,23 +21,23 @@ export function createRelativePattern<ParentParams = any, Params = any>(
       const parentPattern = createPattern<ParentParams>(parentMatch.path);
       const thePattern = createInheritedPattern<ParentParams, Params>(parentPattern, nomalizedPettern);
 
-      return thePattern.matchAdvanced(options)(location);
+      return thePattern.matchAdvanced(options)(path);
     };
   }
 
-  function match(location: Location, parentMatch?: Match<ParentParams>): Match<Params> {
-    return matchAdvanced()(location, parentMatch);
+  function match(path: Path, parentMatch?: Match<ParentParams>): Match<Params> {
+    return matchAdvanced()(path, parentMatch);
   }
 
-  function matchExact(location: Location, parentMatch?: Match<ParentParams>): Match<Params> {
-    return matchAdvanced({ exact: true })(location, parentMatch);
+  function matchExact(path: Path, parentMatch?: Match<ParentParams>): Match<Params> {
+    return matchAdvanced({ exact: true })(path, parentMatch);
   }
 
-  function matchStrict(location: Location, parentMatch?: Match<ParentParams>): Match<Params> {
-    return matchAdvanced({ exact: true, strict: true })(location, parentMatch);
+  function matchStrict(path: Path, parentMatch?: Match<ParentParams>): Match<Params> {
+    return matchAdvanced({ exact: true, strict: true })(path, parentMatch);
   }
 
-  function compile(parentPattern: PathPattern<ParentParams>, params?: ParentParams & Params): string {
+  function compile(parentPattern: PathPattern<ParentParams>, params: ParentParams & Params): string {
     const thePattern = createInheritedPattern<ParentParams, Params>(parentPattern, nomalizedPettern);
 
     return thePattern.compile(params);

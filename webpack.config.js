@@ -32,7 +32,6 @@ var config = {
         options: {
           configFile: 'tsconfig.json',
           silent: false,
-          visualStudioErrorFormat: true,
         },
       },
       {

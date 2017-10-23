@@ -1,47 +1,45 @@
 import { Location } from 'history';
 import { createPattern } from '../src';
-import { createLocation } from './utils/createLocation';
 
 describe(`createPattern('/home')`, () => {
   const pattern = createPattern('/home');
   it(`match '/home'`, () => {
-    expect(pattern.match(createLocation('/home'))).toBeTruthy();
+    expect(pattern.match('/home')).toBeTruthy();
   });
   it(`match '/home/user'`, () => {
-    expect(pattern.match(createLocation('/home/user'))).toBeTruthy();
+    expect(pattern.match('/home/user')).toBeTruthy();
   });
   it(`does not match '/welcome'`, () => {
-    expect(pattern.match(createLocation('/welcome'))).toBeFalsy();
+    expect(pattern.match('/welcome')).toBeFalsy();
   });
   it(`does not match '/'`, () => {
-    expect(pattern.match(createLocation('/'))).toBeFalsy();
+    expect(pattern.match('/')).toBeFalsy();
   });
   it(`does not match with no location or no pathname`, () => {
-    const fakeLocation: Location = {} as any;
     expect(pattern.match(null)).toBeFalsy();
-    expect(pattern.match(fakeLocation)).toBeFalsy();
+    expect(pattern.match(undefined)).toBeFalsy();
   });
   it(`compile to '/home'`, () => {
-    expect(pattern.compile()).toEqual('/home');
+    expect(pattern.compile({})).toEqual('/home');
   });
 });
 
 describe(`createPattern('/home', { exact: true })`, () => {
   const pattern = createPattern('/home');
   it(`match '/home'`, () => {
-    expect(pattern.matchExact(createLocation('/home'))).toBeTruthy();
+    expect(pattern.matchExact('/home')).toBeTruthy();
   });
   it(`match '/home/'`, () => {
-    expect(pattern.matchExact(createLocation('/home/'))).toBeTruthy();
+    expect(pattern.matchExact('/home/')).toBeTruthy();
   });
   it(`does not match '/home/user'`, () => {
-    expect(pattern.matchExact(createLocation('/home/user'))).toBeFalsy();
+    expect(pattern.matchExact('/home/user')).toBeFalsy();
   });
   it(`does not match '/welcome'`, () => {
-    expect(pattern.matchExact(createLocation('/welcome'))).toBeFalsy();
+    expect(pattern.matchExact('/welcome')).toBeFalsy();
   });
   it(`does not match '/'`, () => {
-    expect(pattern.matchExact(createLocation('/'))).toBeFalsy();
+    expect(pattern.matchExact('/')).toBeFalsy();
   });
   it(`get getPattern`, () => {
     expect(pattern.getPattern()).toEqual('/home');
@@ -51,22 +49,22 @@ describe(`createPattern('/home', { exact: true })`, () => {
 describe(`createPattern('/home/', { exact: true, strict: true })`, () => {
   const pattern = createPattern('/home/');
   it(`match '/home/'`, () => {
-    expect(pattern.matchStrict(createLocation('/home/'))).toBeTruthy();
+    expect(pattern.matchStrict('/home/')).toBeTruthy();
   });
   it(`does not match '/home'`, () => {
-    expect(pattern.matchStrict(createLocation('/home'))).toBeFalsy();
+    expect(pattern.matchStrict('/home')).toBeFalsy();
   });
   it(`does not match '/home/user'`, () => {
-    expect(pattern.matchStrict(createLocation('/home/user'))).toBeFalsy();
+    expect(pattern.matchStrict('/home/user')).toBeFalsy();
   });
   it(`does not match '/welcome'`, () => {
-    expect(pattern.matchStrict(createLocation('/welcome'))).toBeFalsy();
+    expect(pattern.matchStrict('/welcome')).toBeFalsy();
   });
   it(`does not match '/'`, () => {
-    expect(pattern.matchStrict(createLocation('/'))).toBeFalsy();
+    expect(pattern.matchStrict('/')).toBeFalsy();
   });
   it(`compile to '/home'`, () => {
-    expect(pattern.compile()).toEqual('/home/');
+    expect(pattern.compile({})).toEqual('/home/');
   });
   it(`get getPattern`, () => {
     expect(pattern.getPattern()).toEqual('/home/');
@@ -77,51 +75,51 @@ describe(`createPattern('/home/', { exact: true, strict: true })`, () => {
 describe(`createPattern('/home/', { exact: true, strict: true }) bis`, () => {
   const pattern = createPattern('/home/');
   it(`match '/home/'`, () => {
-    expect(pattern.matchStrict(createLocation('/home/'))).toBeTruthy();
+    expect(pattern.matchStrict('/home/')).toBeTruthy();
   });
   it(`does not match '/home'`, () => {
-    expect(pattern.matchStrict(createLocation('/home'))).toBeFalsy();
+    expect(pattern.matchStrict('/home')).toBeFalsy();
   });
   it(`compile to '/home'`, () => {
-    expect(pattern.compile()).toEqual('/home/');
+    expect(pattern.compile({})).toEqual('/home/');
   });
 });
 
 describe(`createPattern('/home/', { strict: true })`, () => {
   const pattern = createPattern('/home/');
   it(`match '/home/'`, () => {
-    expect(pattern.matchStrict(createLocation('/home/'))).toBeTruthy();
+    expect(pattern.matchStrict('/home/')).toBeTruthy();
   });
   it(`does not match '/home'`, () => {
-    expect(pattern.matchStrict(createLocation('/home'))).toBeFalsy();
+    expect(pattern.matchStrict('/home')).toBeFalsy();
   });
   it(`match '/home/user'`, () => {
-    expect(pattern.matchStrict(createLocation('/home/user'))).toBeFalsy();
+    expect(pattern.matchStrict('/home/user')).toBeFalsy();
   });
   it(`does not match '/welcome'`, () => {
-    expect(pattern.matchStrict(createLocation('/welcome'))).toBeFalsy();
+    expect(pattern.matchStrict('/welcome')).toBeFalsy();
   });
   it(`does not match '/'`, () => {
-    expect(pattern.matchStrict(createLocation('/'))).toBeFalsy();
+    expect(pattern.matchStrict('/')).toBeFalsy();
   });
 });
 
 describe(`createPattern('/user/:user')`, () => {
   const pattern = createPattern('/user/:user');
   it(`does not match '/'`, () => {
-    expect(pattern.match(createLocation('/'))).toBeFalsy();
+    expect(pattern.match('/')).toBeFalsy();
   });
   it(`does not match '/user'`, () => {
-    expect(pattern.match(createLocation('/user'))).toBeFalsy();
+    expect(pattern.match('/user')).toBeFalsy();
   });
   it(`does not match '/user/'`, () => {
-    expect(pattern.match(createLocation('/user/'))).toBeFalsy();
+    expect(pattern.match('/user/')).toBeFalsy();
   });
   it(`match '/user/john'`, () => {
-    expect(pattern.match(createLocation('/user/john'))).toBeTruthy();
+    expect(pattern.match('/user/john')).toBeTruthy();
   });
   it(`match '/user/john'`, () => {
-    expect(pattern.match(createLocation('/user/john'))).toMatchSnapshot();
+    expect(pattern.match('/user/john')).toMatchSnapshot();
   });
   it(`compile with user jane`, () => {
     expect(pattern.compile({ user: 'jane' })).toEqual('/user/jane');
@@ -149,27 +147,31 @@ describe(`createPattern('/user/:userName')`, () => {
 
 describe(`createPattern('/')`, () => {
   const pattern = createPattern('/');
-  it(`match ''`, () => {
-    expect(pattern.match(createLocation(''))).toBeFalsy();
+  it(`does not match ''`, () => {
+    expect(pattern.match('')).toBeFalsy();
+    expect(pattern.matchAdvanced({})('')).toBeFalsy();
+  });
+  it(`match '/'`, () => {
+    expect(pattern.match('/')).toMatchSnapshot();
   });
 });
 
 describe(`createPattern('home')`, () => {
   const pattern = createPattern('home');
   it(`match '/home/'`, () => {
-    expect(pattern.match(createLocation('/home/'))).toBeTruthy();
+    expect(pattern.match('/home/')).toBeTruthy();
   });
   it(`match '/home'`, () => {
-    expect(pattern.match(createLocation('/home'))).toBeTruthy();
+    expect(pattern.match('/home')).toBeTruthy();
   });
   it(`match '/home/user'`, () => {
-    expect(pattern.match(createLocation('/home/user'))).toBeTruthy();
+    expect(pattern.match('/home/user')).toBeTruthy();
   });
   it(`does not match '/welcome'`, () => {
-    expect(pattern.match(createLocation('/welcome'))).toBeFalsy();
+    expect(pattern.match('/welcome')).toBeFalsy();
   });
   it(`does not match '/'`, () => {
-    expect(pattern.match(createLocation('/'))).toBeFalsy();
+    expect(pattern.match('/')).toBeFalsy();
   });
   it(`get getPattern`, () => {
     expect(pattern.getPattern()).toEqual('/home');

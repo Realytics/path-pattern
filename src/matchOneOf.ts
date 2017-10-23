@@ -1,5 +1,4 @@
-
-import { Matcher } from './Matcher';
+import { Matcher, Path, Match } from './types';
 
 /**
  * Reduce matchers to one matcher that selects first match.
@@ -8,5 +7,5 @@ import { Matcher } from './Matcher';
  * @returns {Matcher} Reduced matcher
  */
 export function matchOneOf(...matchers: Matcher[]): Matcher {
-  return location => matchers.reduce((match, matcher) => match || matcher(location), false as any);
+  return (path: Path) => matchers.reduce<Match>((match, matcher) => match || matcher(path), false);
 }

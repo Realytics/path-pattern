@@ -1,11 +1,7 @@
-import { Location } from 'history';
 import * as pathToRegexp from 'path-to-regexp';
 import { Key, ParseOptions, PathFunction, RegExpOptions } from 'path-to-regexp';
 import { normalizePathPattern } from './normalizePathPattern';
-import { Match } from './Match';
-import { MatchOptions } from './Matchable';
-import { Matcher } from './Matcher';
-import { PathPattern } from './PathPattern';
+import { Match, MatchOptions, Matcher, Path, PathPattern } from './types';
 
 type CacheContainer = {
   [key: string]: {
@@ -25,13 +21,13 @@ export function createPattern<Params>(pattern: string): PathPattern<Params> {
   }
 
   function matchAdvanced(options: MatchOptions = {}): Matcher<Params> {
-    return (location: Location) => {
-      if (!location || location.pathname === null || location.pathname === undefined) {
+    return (path: Path) => {
+      if (path === null || path === undefined) {
         return false;
       }
       const regExp = getRegExp(options);
       const keys = cache[nomalizedPettern].keys;
-      const thematch = regExp.exec(location.pathname);
+      const thematch = regExp.exec(path);
 
       if (!thematch) {
         return false;
@@ -41,8 +37,8 @@ export function createPattern<Params>(pattern: string): PathPattern<Params> {
 
       return {
         path: nomalizedPettern, // the path pattern used to match
-        url: nomalizedPettern === '/' && url === '' ? '/' : url, // the matched portion of the URL
-        isExact: location.pathname === url, // whether or not we matched exactly
+        url: url, // the matched portion of the URL
+        isExact: path === url, // whether or not we matched exactly
         params: keys.reduce((params: any, key: Key, index: number) => {
           params[key.name] = values[index];
           return params;
@@ -51,19 +47,19 @@ export function createPattern<Params>(pattern: string): PathPattern<Params> {
     };
   }
 
-  function match(location: Location): Match<Params> {
-    return matchAdvanced()(location);
+  function match(path: Path): Match<Params> {
+    return matchAdvanced()(path);
   }
 
-  function matchExact(location: Location): Match<Params> {
-    return matchAdvanced({ exact: true })(location);
+  function matchExact(path: Path): Match<Params> {
+    return matchAdvanced({ exact: true })(path);
   }
 
-  function matchStrict(location: Location): Match<Params> {
-    return matchAdvanced({ exact: true, strict: true })(location);
+  function matchStrict(path: Path): Match<Params> {
+    return matchAdvanced({ exact: true, strict: true })(path);
   }
 
-  function compile(params?: Params): string {
+  function compile(params: Params): string {
     return getRegExpCompile()(params);
   }
 

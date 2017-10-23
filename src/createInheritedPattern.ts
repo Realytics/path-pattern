@@ -1,6 +1,6 @@
 import { normalizePathPattern } from './normalizePathPattern';
-import { PathPattern } from './PathPattern';
 import { createPattern } from './createPattern';
+import { PathPattern } from './types';
 
 export function createInheritedPattern<ParentParams = any, Params = any>(
   parentPathPattern: PathPattern<ParentParams>,

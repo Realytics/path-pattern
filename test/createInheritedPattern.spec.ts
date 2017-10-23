@@ -1,36 +1,26 @@
 import { Location } from 'history';
 import { createPattern, createInheritedPattern } from '../src';
 
-function createLocation(path: string = ''): Location {
-  return {
-    pathname: path,
-    hash: '',
-    key: '0uicnx',
-    search: '',
-    state: null,
-  };
-}
-
-describe('RelativePathPattern', () => {
+describe('IneritedPathPattern', () => {
   const parentPattern = createPattern('/home');
   const pattern = createInheritedPattern(parentPattern, '/user');
 
   it('match /home/user', () => {
-    expect(pattern.match(createLocation('/home/user'))).toBeTruthy();
+    expect(pattern.match('/home/user')).toBeTruthy();
   });
   it('does not match /home', () => {
-    expect(pattern.match(createLocation('/home'))).toBeFalsy();
+    expect(pattern.match('/home')).toBeFalsy();
   });
 });
 
-describe('RelativePathPattern with /', () => {
+describe('IneritedPathPattern with /', () => {
   const parentPattern = createPattern('/');
   const pattern = createInheritedPattern(parentPattern, '/user');
 
   it('match /user', () => {
-    expect(pattern.match(createLocation('/user'))).toBeTruthy();
+    expect(pattern.match('/user')).toBeTruthy();
   });
   it('does not match /', () => {
-    expect(pattern.match(createLocation('/'))).toBeFalsy();
+    expect(pattern.match('/')).toBeFalsy();
   });
 });

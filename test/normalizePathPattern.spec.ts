@@ -1,4 +1,3 @@
-
 import { normalizePathPattern } from '../src';
 
 describe(`normalizePathPattern`, () => {
@@ -25,6 +24,7 @@ describe(`normalizePathPattern`, () => {
 
   it('should work for empty path', () => {
     expect(normalizePathPattern('')).toEqual('/');
+    expect(normalizePathPattern('/')).toEqual('/');
     expect(normalizePathPattern('', { strict: false })).toEqual('/');
   });
 });
