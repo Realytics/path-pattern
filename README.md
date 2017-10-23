@@ -48,9 +48,9 @@ const createPattern = require('path-pattern').createPattern;
 // A basic route
 const UserRoute = createPattern('/home');
 
-// You can then try to match it
-// with a Location object from the history package
-const match = UserRoute.match(history.location);
+// You can then try to match it with apath
+const noMatch = UserRoute.match('/foo'); // => false
+const match = UserRoute.match('/home'); // => { isExact: true, params: {}, path: "/home", "url": "/home" }
 ```
 
 ## Versioning
