@@ -13,7 +13,7 @@ type CacheContainer = {
 
 const cache: CacheContainer = {};
 
-export function createPattern<Params>(pattern: string): PathPattern<Params> {
+export function createPattern<Params extends object = {}>(pattern: string): PathPattern<Params> {
   const nomalizedPettern = normalizePathPattern(pattern);
 
   function getPattern() {

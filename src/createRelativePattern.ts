@@ -3,7 +3,7 @@ import { normalizePathPattern } from './normalizePathPattern';
 import { createPattern } from './createPattern';
 import { createInheritedPattern } from './createInheritedPattern';
 
-export function createRelativePattern<ParentParams = any, Params = any>(
+export function createRelativePattern<ParentParams extends object = {}, Params extends object = {}>(
   pattern: string
 ): RelativePathPattern<ParentParams, Params> {
   const nomalizedPettern = normalizePathPattern(pattern);
