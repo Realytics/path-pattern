@@ -6,15 +6,7 @@
   "license": "MIT",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
-  "keywords": [
-    "path",
-    "url",
-    "routing",
-    "pattern",
-    "regexp",
-    "matching",
-    "router"
-  ],
+  "keywords": ["path", "url", "routing", "pattern", "regexp", "matching", "router"],
   "scripts": {
     "build": "webpack lib/index.js",
     "build-stats": "NODE_ENV=production webpack lib/index.js --json > stats.json",
@@ -23,7 +15,8 @@
     "test:watch": "yarn test --watch",
     "test:cov": "yarn test --coverage",
     "lint": "tslint \"src/**/*.ts?(x)\" \"test/**/*.ts?(x)\" -t stylish",
-    "lint:fix": "yarn lint -- --fix"
+    "lint:fix": "yarn lint -- --fix",
+    "semantic-release": "semantic-release"
   },
   "repository": {
     "type": "git",
@@ -41,23 +34,16 @@
     "tslint": "^5.9.1",
     "tslint-loader": "^3.5.3",
     "typescript": "^2.6.2",
-    "webpack": "^3.10.0"
+    "webpack": "^3.10.0",
+    "semantic-release": "^12.2.5"
   },
   "jest": {
     "transform": {
       "^.+\\.tsx?$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
     },
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js"
-    ],
-    "collectCoverageFrom": [
-      "src/**/*"
-    ],
-    "coveragePathIgnorePatterns": [
-      "/src/.*\\.d\\.ts$"
-    ],
+    "moduleFileExtensions": ["ts", "tsx", "js"],
+    "collectCoverageFrom": ["src/**/*"],
+    "coveragePathIgnorePatterns": ["/src/.*\\.d\\.ts$"],
     "testRegex": "/test/.*\\.spec\\.(ts|tsx|js)$",
     "mapCoverage": true
   },
