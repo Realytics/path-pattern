@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/Realytics/path-pattern/master/assets/logo.svg" width="597" alt="path-pattern logo">
+  <img src="https://github.com/Realytics/path-pattern/blob/master/assets/logo.svg" width="597" alt="path-pattern logo">
 </p>
 <h1 align="center">
 	Path Pattern
