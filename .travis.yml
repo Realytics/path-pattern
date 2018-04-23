@@ -1,11 +1,16 @@
 language: node_js
-node_js: node
-cache: yarn
-deploy:
-- provider: npm
-  email: opensource@realytics.io
-  api_key:
-    secure: gu1bAJGF81/ujdeoYi56nLfXI+tWSb4aKpwP9M5GLo10MISWBS7rzvh70IpQTt36QSCM26IBeOE/L7o3h+7tNGLBXgr7qVvaXpQfJPhCJprXCbAOBv8wGMBlg1Cs74Dju9tZavcNiJfDJvb2AeBmqyPfpXNV8WCxWHdP4sFagMZD2zDRWW2T08iKLM/Txp32jZnJzn7ixCcLpBnCI2sMUqGaGhijpHmuXYqhUaXpbGwELLczNktSpwbTJYUZ0KC4uhYEQ7JVhu0e1Rhztzbw1RkkouNtEuCzRNbm4KEi+S8SzTvMD7T5pODpfrNXehOsr0kSTrmRy2LU2cqCdmb84bn74U3p8YOfUPq1Ph5iiWcB1qS1mTD5fCaL4ofi4nOOHGlpRG5EM8JbDNs1yJCcpQ7WqMROyJjtYJYOrTckx3RUTutMmVldJQWP/qo6ArM+eBN++g6mbl+6OWK7RpF4+d2UfyyMsMXbw8J0PTcwc55Nya7PQy/eyRCBYdeSKyWab5fFsXS2vWo3j9BKaUr+BH7v62XwRnGSPFzBWt0jq7QaxvVbuCr74GltORQ/lmbwRyULEFtccGdH0y1jL9E60ML+yISEyo/UkC7s5wK4tRACkVrUk6kmzwAeSHYLaKt2Kg7xZcjIBzsfxCgXtFaMMKJHoswa/t/a2Fu3EXah9lE=
-  on:
-    tags: true
-    repo: Realytics/path-pattern
+cache:
+  directories:
+    - ~/.npm
+notifications:
+  email: false
+node_js:
+  - '9'
+  - '8'
+  - '6'
+  - '4'
+after_success:
+  - npm run travis-deploy-once "npm run semantic-release"
+branches:
+  except:
+    - /^v\d+\.\d+\.\d+$/
