@@ -1,15 +1,5 @@
-export { createPattern } from './createPattern';
-export { createInheritedPattern } from './createInheritedPattern';
-export { createRelativePattern } from './createRelativePattern';
+export { PathPattern, PathPatternWithParams } from './PathPattern';
+export { RelativePathPattern } from './RelativePathPattern';
 export { normalizePathPattern } from './normalizePathPattern';
 export { matchOneOf } from './matchOneOf';
-export {
-  PathPattern,
-  RelativePathPattern,
-  Match,
-  MatchSuccess,
-  MatchOptions,
-  Matchable,
-  RelativeMatchable,
-  Matcher,
-} from './types';
+export { Match, MatchSuccess, MatchOptions, Matcher, Pattern, PatternWithParams } from './types';

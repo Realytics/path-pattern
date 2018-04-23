@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RelativePathPattern does not allow false 1`] = `"RelativePathPattern must be resolved with a MatchSuccess, received: false"`;

@@ -18,7 +18,10 @@
     "object-literal-shorthand": false,
     "object-literal-sort-keys": false,
     "callable-types": false,
-    "ordered-imports": false
+    "ordered-imports": false,
+    "max-classes-per-file": false,
+    "variable-name": false,
+    "no-console": [true, "log"]
   },
   "rulesDirectory": []
 }

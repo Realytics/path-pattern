@@ -1,8 +1,8 @@
-import { matchOneOf, PathPattern, createPattern } from '../src';
+import { matchOneOf, PathPattern } from '../src';
 
 describe('matchOneOf', () => {
-  const pattern1 = createPattern('/home');
-  const pattern2 = createPattern('/hello');
+  const pattern1 = new PathPattern('/home');
+  const pattern2 = new PathPattern('/hello');
   it('match /home & /hello & /hello/welcome', () => {
     const matcher = matchOneOf(pattern1.match, pattern2.match);
     expect(matcher('/home')).toBeTruthy();

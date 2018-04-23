@@ -1,8 +1,8 @@
 import { Location } from 'history';
-import { createPattern } from '../src';
+import { PathPattern, PathPatternWithParams } from '../src';
 
-describe(`createPattern('/home')`, () => {
-  const pattern = createPattern('/home');
+describe(`new PathPattern('/home')`, () => {
+  const pattern = new PathPattern('/home');
   it(`match '/home'`, () => {
     expect(pattern.match('/home')).toBeTruthy();
   });
@@ -15,17 +15,17 @@ describe(`createPattern('/home')`, () => {
   it(`does not match '/'`, () => {
     expect(pattern.match('/')).toBeFalsy();
   });
-  it(`does not match with no location or no pathname`, () => {
+  it(`does not match with no path`, () => {
     expect(pattern.match(null)).toBeFalsy();
     expect(pattern.match(undefined)).toBeFalsy();
   });
   it(`compile to '/home'`, () => {
-    expect(pattern.compile({})).toEqual('/home');
+    expect(pattern.compile()).toEqual('/home');
   });
 });
 
-describe(`createPattern('/home', { exact: true })`, () => {
-  const pattern = createPattern('/home');
+describe(`new PathPattern('/home', { exact: true })`, () => {
+  const pattern = new PathPattern('/home');
   it(`match '/home'`, () => {
     expect(pattern.matchExact('/home')).toBeTruthy();
   });
@@ -46,8 +46,8 @@ describe(`createPattern('/home', { exact: true })`, () => {
   });
 });
 
-describe(`createPattern('/home/', { exact: true, strict: true })`, () => {
-  const pattern = createPattern('/home/');
+describe(`new PathPattern('/home/', { exact: true, strict: true })`, () => {
+  const pattern = new PathPattern('/home/');
   it(`match '/home/'`, () => {
     expect(pattern.matchStrict('/home/')).toBeTruthy();
   });
@@ -64,7 +64,7 @@ describe(`createPattern('/home/', { exact: true, strict: true })`, () => {
     expect(pattern.matchStrict('/')).toBeFalsy();
   });
   it(`compile to '/home'`, () => {
-    expect(pattern.compile({})).toEqual('/home/');
+    expect(pattern.compile()).toEqual('/home/');
   });
   it(`get getPattern`, () => {
     expect(pattern.getPattern()).toEqual('/home/');
@@ -72,8 +72,8 @@ describe(`createPattern('/home/', { exact: true, strict: true })`, () => {
 });
 
 // create twice the same path for coverage
-describe(`createPattern('/home/', { exact: true, strict: true }) bis`, () => {
-  const pattern = createPattern('/home/');
+describe(`new PathPattern('/home/', { exact: true, strict: true }) bis`, () => {
+  const pattern = new PathPattern('/home/');
   it(`match '/home/'`, () => {
     expect(pattern.matchStrict('/home/')).toBeTruthy();
   });
@@ -81,12 +81,12 @@ describe(`createPattern('/home/', { exact: true, strict: true }) bis`, () => {
     expect(pattern.matchStrict('/home')).toBeFalsy();
   });
   it(`compile to '/home'`, () => {
-    expect(pattern.compile({})).toEqual('/home/');
+    expect(pattern.compile()).toEqual('/home/');
   });
 });
 
-describe(`createPattern('/home/', { strict: true })`, () => {
-  const pattern = createPattern('/home/');
+describe(`new PathPattern('/home/', { strict: true })`, () => {
+  const pattern = new PathPattern('/home/');
   it(`match '/home/'`, () => {
     expect(pattern.matchStrict('/home/')).toBeTruthy();
   });
@@ -104,8 +104,8 @@ describe(`createPattern('/home/', { strict: true })`, () => {
   });
 });
 
-describe(`createPattern('/user/:user')`, () => {
-  const pattern = createPattern('/user/:user');
+describe(`new PathPattern('/user/:user')`, () => {
+  const pattern = new PathPatternWithParams<{ user: string }>('/user/:user');
   it(`does not match '/'`, () => {
     expect(pattern.match('/')).toBeFalsy();
   });
@@ -132,21 +132,21 @@ describe(`createPattern('/user/:user')`, () => {
   });
 });
 
-describe(`createPattern('/user/:userName')`, () => {
-  const pattern = createPattern('/user/:userName');
+describe(`new PathPattern('/user/:userName')`, () => {
+  const pattern = new PathPatternWithParams<{ userName: string }>('/user/:userName');
   it(`compile with user userName`, () => {
     expect(pattern.compile({ userName: 'jane' })).toEqual('/user/jane');
   });
   it(`does not compile with wrong param`, () => {
-    expect(() => pattern.compile({ yolo: 'jane' })).toThrowErrorMatchingSnapshot();
+    expect(() => pattern.compile({ yolo: 'jane' } as any)).toThrowErrorMatchingSnapshot();
   });
   it(`compile with user username`, () => {
-    expect(() => pattern.compile({ username: 'john' })).toThrowErrorMatchingSnapshot();
+    expect(() => pattern.compile({ username: 'john' } as any)).toThrowErrorMatchingSnapshot();
   });
 });
 
-describe(`createPattern('/')`, () => {
-  const pattern = createPattern('/');
+describe(`new PathPattern('/')`, () => {
+  const pattern = new PathPattern('/');
   it(`does not match ''`, () => {
     expect(pattern.match('')).toBeFalsy();
     expect(pattern.matchAdvanced({})('')).toBeFalsy();
@@ -156,8 +156,8 @@ describe(`createPattern('/')`, () => {
   });
 });
 
-describe(`createPattern('home')`, () => {
-  const pattern = createPattern('home');
+describe(`new PathPattern('home')`, () => {
+  const pattern = new PathPattern('home');
   it(`match '/home/'`, () => {
     expect(pattern.match('/home/')).toBeTruthy();
   });
@@ -175,5 +175,29 @@ describe(`createPattern('home')`, () => {
   });
   it(`get getPattern`, () => {
     expect(pattern.getPattern()).toEqual('/home');
+  });
+});
+
+describe('IneritedPathPattern', () => {
+  const parentPattern = new PathPattern('/home');
+  const pattern = parentPattern.extends('/user');
+
+  it('match /home/user', () => {
+    expect(pattern.match('/home/user')).toBeTruthy();
+  });
+  it('does not match /home', () => {
+    expect(pattern.match('/home')).toBeFalsy();
+  });
+});
+
+describe('IneritedPathPattern with /', () => {
+  const parentPattern = new PathPattern('/');
+  const pattern = parentPattern.extends('/user');
+
+  it('match /user', () => {
+    expect(pattern.match('/user')).toBeTruthy();
+  });
+  it('does not match /', () => {
+    expect(pattern.match('/')).toBeFalsy();
   });
 });

@@ -11,6 +11,9 @@ export type PathNormalizeOptions = {
  * @returns {string} Normalized path
  */
 export function normalizePathPattern(pattern: string, options: PathNormalizeOptions = {}): string {
+  if (typeof pattern !== 'string') {
+    throw new Error(`Missing string parameter pattern`);
+  }
   const { strict = true } = options;
 
   let normalizedPattern = pattern;
@@ -22,8 +25,10 @@ export function normalizePathPattern(pattern: string, options: PathNormalizeOpti
   normalizedPattern = '/' + normalizedPattern;
 
   if (!strict) {
-    normalizedPattern = normalizedPattern.length > 1 && normalizedPattern[normalizedPattern.length - 1] === '/' ?
-      normalizedPattern.substr(0, normalizedPattern.length - 1) : normalizedPattern;
+    normalizedPattern =
+      normalizedPattern.length > 1 && normalizedPattern[normalizedPattern.length - 1] === '/'
+        ? normalizedPattern.substr(0, normalizedPattern.length - 1)
+        : normalizedPattern;
   }
 
   return normalizedPattern;
