@@ -1,6 +1,5 @@
 # Path Pattern
 
-
 [![Build Status](https://travis-ci.org/Realytics/path-pattern.svg?branch=master)](https://travis-ci.org/Realytics/path-pattern)
 [![npm](https://img.shields.io/npm/dm/localeval.svg)](https://github.com/Realytics/path-pattern)
 
@@ -38,24 +37,23 @@ import { createPattern } from 'path-pattern';
 #### Node
 
 ```js
-const createPattern = require('path-pattern').createPattern;
+const PathPattern = require('path-pattern').PathPattern;
 ```
 
 ## Some examples
 
 ```ts
-
 // A basic route
-const UserRoute = createPattern('/home');
+const userRoute = new PathPattern('/home');
 
 // You can then try to match it with apath
-const noMatch = UserRoute.match('/foo'); // => false
-const match = UserRoute.match('/home'); // => { isExact: true, params: {}, path: "/home", "url": "/home" }
+const noMatch = userRoute.match('/foo'); // => false
+const match = userRoute.match('/home'); // => { isExact: true, params: {}, path: "/home", "url": "/home" }
 ```
 
 ## Versioning
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [releases on this repository](https://github.com/Realytics/path-pattern/releases). 
+We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [releases on this repository](https://github.com/Realytics/path-pattern/releases).
 
 ## License
 
