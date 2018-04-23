@@ -1,11 +1,17 @@
-# Path Pattern
+<p align="center">
+  <img src="https://raw.githubusercontent.com/Realytics/path-pattern/master/assets/logo.svg" width="597" alt="path-pattern logo">
+</p>
+<h1 align="center">
+	Path Pattern
+	<a href="https://www.npmjs.org/package/path-pattern"><img src="https://img.shields.io/npm/v/path-pattern.svg?style=flat" alt="npm"></a>
+  <a href="https://travis-ci.org/Realytics/path-pattern"><img src="https://travis-ci.org/Realytics/path-pattern.svg?branch=master" alt="travis"></a>
+</h1>
 
-[![Build Status](https://travis-ci.org/Realytics/path-pattern.svg?branch=master)](https://travis-ci.org/Realytics/path-pattern)
-[![npm](https://img.shields.io/npm/dm/localeval.svg)](https://github.com/Realytics/path-pattern)
-
-> A small library to match and compile paths like `/user/:name`
-
-This is a a wrapper around [path-to-regexp](https://github.com/pillarjs/path-to-regexp).
+<p align="center">A small library to match and compile paths like <code>/user/:name</code>
+ </p>
+<p align="center">
+This is a a wrapper around <a href="https://github.com/pillarjs/path-to-regexp">path-to-regexp</a>.
+ </p>
 
 ## This package might contain a few bugs
 
