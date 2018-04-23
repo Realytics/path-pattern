@@ -6,7 +6,15 @@
   "license": "MIT",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
-  "keywords": ["path", "url", "routing", "pattern", "regexp", "matching", "router"],
+  "keywords": [
+    "path",
+    "url",
+    "routing",
+    "pattern",
+    "regexp",
+    "matching",
+    "router"
+  ],
   "scripts": {
     "build": "webpack lib/index.js",
     "build-stats": "NODE_ENV=production webpack lib/index.js --json > stats.json",
@@ -24,7 +32,7 @@
     "url": "https://github.com/Realytics/path-pattern.git"
   },
   "dependencies": {
-    "path-to-regexp": "^2.1.0"
+    "path-to-regexp": "^2.2.0"
   },
   "devDependencies": {
     "@types/history": "^4.6.2",
@@ -44,9 +52,17 @@
     "transform": {
       "^.+\\.tsx?$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
     },
-    "moduleFileExtensions": ["ts", "tsx", "js"],
-    "collectCoverageFrom": ["src/**/*"],
-    "coveragePathIgnorePatterns": ["/src/.*\\.d\\.ts$"],
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ],
+    "collectCoverageFrom": [
+      "src/**/*"
+    ],
+    "coveragePathIgnorePatterns": [
+      "/src/.*\\.d\\.ts$"
+    ],
     "testRegex": "/test/.*\\.spec\\.(ts|tsx|js)$"
   },
   "bugs": {
