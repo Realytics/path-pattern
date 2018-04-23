@@ -1,3 +1,11 @@
+## [2.0.1](https://github.com/Realytics/path-pattern/compare/v2.0.0...v2.0.1) (2018-04-23)
+
+### Bug Fixes
+
+* **ci:** Fix CI NPM access Closes [#2](https://github.com/Realytics/path-pattern/issues/2) ([d238976](https://github.com/Realytics/path-pattern/commit/d238976))
+
+## v1.0.1
+
 ## v0.9.0
 
 ### Breaking changes:
