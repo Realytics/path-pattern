@@ -21,7 +21,8 @@
     "max-classes-per-file": false,
     "variable-name": false,
     "no-console": [true, "log"],
-    "quotemark": false
+    "quotemark": false,
+    "no-var-requires": false
   },
   "rulesDirectory": []
 }

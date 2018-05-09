@@ -17,7 +17,10 @@ export abstract class RelativePathPatternBase {
     if (!parentMatch || typeof parentMatch.path !== 'string') {
       throw new Error(`RelativePathPattern must be resolved with a MatchSuccess, received: ${parentMatch}`);
     }
-    const parentPattern = new PathPatternWithParams<any>(parentMatch.path);
+    const hasParams = this instanceof RelativePathPatternWithParams || Object.keys(parentMatch.params).length > 0;
+    const parentPattern = hasParams
+      ? new PathPatternWithParams<any>(parentMatch.path)
+      : new PathPattern(parentMatch.path);
     const resultPattern = parentPattern.extends(this.getPattern());
 
     return resultPattern as any;
@@ -30,10 +33,7 @@ export class RelativePathPattern extends RelativePathPatternBase {
     return super.resolve(parentMatch) as any;
   }
 
-  inherit(parentPattern: PathPattern): PathPattern;
-  inherit<ParentParams extends object>(
-    parentPattern: PathPattern | PathPatternWithParams<ParentParams>
-  ): PathPatternWithParams<ParentParams> {
+  inherit(parentPattern: PathPattern): PathPattern {
     return parentPattern.extends(this.getPattern()) as any;
   }
 
@@ -53,7 +53,7 @@ export class RelativePathPatternWithParams<Params extends object> extends Relati
   }
 
   inherit(parentPattern: PathPattern): PathPatternWithParams<Params> {
-    return parentPattern.extends(this.getPattern()) as any;
+    return parentPattern.extendsWithParams(this.getPattern()) as any;
   }
 
   inheritWithParams<ParentParams extends object>(

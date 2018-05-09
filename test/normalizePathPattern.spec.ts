@@ -1,6 +1,10 @@
 import { normalizePathPattern } from '../src';
 
 describe(`normalizePathPattern`, () => {
+  it('Throw if no pattern is passed', () => {
+    expect(() => (normalizePathPattern as any)()).toThrowErrorMatchingSnapshot();
+  });
+
   it('adds slash at the begin', () => {
     expect(normalizePathPattern('home')).toEqual('/home');
     expect(normalizePathPattern('home', { strict: true })).toEqual('/home');

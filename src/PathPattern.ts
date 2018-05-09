@@ -135,30 +135,45 @@ export abstract class PathPatternBase<Params extends object> {
 
 export class PathPattern extends PathPatternBase<{}> implements Pattern {
   compile(): string {
-    return super.getRegExpCompiled()({});
+    return super.compile({});
   }
 
-  extends(subpattern: string): Pattern;
-  extends<ParentParams extends object>(subpattern: string): PatternWithParams<ParentParams> {
-    return new PathPattern(this.getPattern() + normalizePathPattern(subpattern)) as any;
+  extends(subpattern: string): PathPattern {
+    return new PathPattern(this.getPattern() + normalizePathPattern(subpattern));
+  }
+
+  extendsWithParams<ParentParams extends object>(subpattern: string): PatternWithParams<ParentParams> {
+    return new PathPatternWithParams<ParentParams>(this.getPattern() + normalizePathPattern(subpattern));
   }
 
   protected onMatch(match: Match<{}>): Match<{}> {
     if (match !== false && Object.keys(match.params).length > 0) {
       console.warn(`PathPattern found params, use PathPatternWithParams instead`);
+      // throw new Error(`PathPattern found params, use PathPatternWithParams instead`);
     }
-    return match;
+    return super.onMatch(match);
   }
 }
 
 export class PathPatternWithParams<Params extends object> extends PathPatternBase<Params>
   implements PatternWithParams<Params> {
   compile(params: Params): string {
-    return super.getRegExpCompiled()(params);
+    return super.compile(params);
   }
 
-  extends(subpattern: string): PatternWithParams<Params>;
-  extends<ParentParams extends object>(subpattern: string): PatternWithParams<ParentParams & Params> {
-    return new PathPatternWithParams<Params>(this.getPattern() + normalizePathPattern(subpattern)) as any;
+  extends(subpattern: string): PatternWithParams<Params> {
+    return new PathPatternWithParams<Params>(this.getPattern() + normalizePathPattern(subpattern));
+  }
+
+  extendsWithParams<ParentParams extends object>(subpattern: string): PatternWithParams<ParentParams & Params> {
+    return new PathPatternWithParams<ParentParams & Params>(this.getPattern() + normalizePathPattern(subpattern));
+  }
+
+  protected onMatch(match: Match<Params>): Match<Params> {
+    if (match !== false && Object.keys(match.params).length === 0) {
+      console.warn(`PathPatternWithParams found no params, use PathPattern instead`);
+      // throw new Error(`PathPatternWithParams found no params, use PathPattern instead`);
+    }
+    return super.onMatch(match);
   }
 }

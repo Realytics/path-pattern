@@ -1,18 +1,21 @@
 {
   "compilerOptions": {
-    "sourceRoot": "./src",
+    "sourceRoot": ".",
     "sourceMap": true,
     "experimentalDecorators": false,
     "target": "es5",
     "module": "commonjs",
     "moduleResolution": "node",
-    "baseUrl": "./src",
+    "baseUrl": ".",
     "declaration": true,
     "declarationDir": "./",
+    "jsx": "react",
     "strict": true,
     "noUnusedParameters": true,
     "noImplicitReturns": true,
-    "noUnusedLocals": true
+    "noUnusedLocals": true,
+    "typeRoots": ["../node_modules/@types", "./types"]
   },
-  "include": ["./src/**/*"]
+  "include": ["./**/*"],
+  "exclude": ["./scripts"]
 }

@@ -24,7 +24,7 @@ describe(`new PathPattern('/home')`, () => {
   });
 });
 
-describe(`new PathPattern('/home', { exact: true })`, () => {
+describe(`new PathPattern('/home') -> matchExact`, () => {
   const pattern = new PathPattern('/home');
   it(`match '/home'`, () => {
     expect(pattern.matchExact('/home')).toBeTruthy();
@@ -46,7 +46,7 @@ describe(`new PathPattern('/home', { exact: true })`, () => {
   });
 });
 
-describe(`new PathPattern('/home/', { exact: true, strict: true })`, () => {
+describe(`new PathPattern('/home/') -> matchStrict`, () => {
   const pattern = new PathPattern('/home/');
   it(`match '/home/'`, () => {
     expect(pattern.matchStrict('/home/')).toBeTruthy();
@@ -72,7 +72,7 @@ describe(`new PathPattern('/home/', { exact: true, strict: true })`, () => {
 });
 
 // create twice the same path for coverage
-describe(`new PathPattern('/home/', { exact: true, strict: true }) bis`, () => {
+describe(`new PathPattern('/home/') -> matchStrict (bis)`, () => {
   const pattern = new PathPattern('/home/');
   it(`match '/home/'`, () => {
     expect(pattern.matchStrict('/home/')).toBeTruthy();
@@ -104,7 +104,7 @@ describe(`new PathPattern('/home/', { strict: true })`, () => {
   });
 });
 
-describe(`new PathPattern('/user/:user')`, () => {
+describe(`new PathPatternWithParams('/user/:user')`, () => {
   const pattern = new PathPatternWithParams<{ user: string }>('/user/:user');
   it(`does not match '/'`, () => {
     expect(pattern.match('/')).toBeFalsy();
@@ -132,7 +132,43 @@ describe(`new PathPattern('/user/:user')`, () => {
   });
 });
 
-describe(`new PathPattern('/user/:userName')`, () => {
+describe(`extends new PathPatternWithParams('/user/:userName')`, () => {
+  const pattern = new PathPatternWithParams<{ userName: string }>('/user/:userName');
+  const extendedParams = pattern.extendsWithParams<{ page: string }>('/:page');
+  const extended = pattern.extends('/hello');
+  it(`Create a new pattern`, () => {
+    expect(extendedParams).toBeInstanceOf(PathPatternWithParams);
+  });
+  it(`Match with all params`, () => {
+    expect(extendedParams.match('/user/etienne/home')).toMatchSnapshot();
+  });
+  it(`Create a new pattern`, () => {
+    expect(extended).toBeInstanceOf(PathPatternWithParams);
+  });
+  it(`Match with all params`, () => {
+    expect(extended.match('/user/hello')).toMatchSnapshot();
+  });
+});
+
+describe(`extends new PathPattern('/user')`, () => {
+  const pattern = new PathPattern('/user');
+  const extendedParams = pattern.extendsWithParams<{ page: string }>('/:page');
+  const extended = pattern.extends('/hello');
+  it(`Create a new pattern`, () => {
+    expect(extendedParams).toBeInstanceOf(PathPatternWithParams);
+  });
+  it(`Match with all params`, () => {
+    expect(extendedParams.match('/user/home')).toMatchSnapshot();
+  });
+  it(`Create a new pattern`, () => {
+    expect(extended).toBeInstanceOf(PathPattern);
+  });
+  it(`Match /user/hello`, () => {
+    expect(extendedParams.match('/user/hello')).toMatchSnapshot();
+  });
+});
+
+describe(`new PathPatternWithParams('/user/:userName')`, () => {
   const pattern = new PathPatternWithParams<{ userName: string }>('/user/:userName');
   it(`compile with user userName`, () => {
     expect(pattern.compile({ userName: 'jane' })).toEqual('/user/jane');
@@ -140,8 +176,28 @@ describe(`new PathPattern('/user/:userName')`, () => {
   it(`does not compile with wrong param`, () => {
     expect(() => pattern.compile({ yolo: 'jane' } as any)).toThrowErrorMatchingSnapshot();
   });
-  it(`compile with user username`, () => {
+  it(`throw error when wrong case`, () => {
     expect(() => pattern.compile({ username: 'john' } as any)).toThrowErrorMatchingSnapshot();
+  });
+});
+
+describe('PathPattern / PathPatternWithParams', () => {
+  it('warn when PathPattern has params', () => {
+    const originalConsole = console.warn;
+    console.warn = jest.fn();
+    const pattern = new PathPattern('/user/:userName');
+    pattern.match('/user/etienne');
+    expect(console.warn).toHaveBeenCalled();
+    console.warn = originalConsole;
+  });
+
+  it('warn when PathPatternWithParams has no params', () => {
+    const originalConsole = console.warn;
+    console.warn = jest.fn();
+    const pattern = new PathPatternWithParams('/user');
+    pattern.match('/user');
+    expect(console.warn).toHaveBeenCalled();
+    console.warn = originalConsole;
   });
 });
 

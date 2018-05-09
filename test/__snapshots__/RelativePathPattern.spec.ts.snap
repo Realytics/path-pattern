@@ -1,3 +1,96 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`RelativePathPattern does not allow false 1`] = `"RelativePathPattern must be resolved with a MatchSuccess, received: false"`;
+
+exports[`RelativePathPattern match /post/all 1`] = `
+Object {
+  "isExact": true,
+  "params": Object {},
+  "path": "/post/all",
+  "url": "/post/all",
+}
+`;
+
+exports[`RelativePathPattern match /user/all 1`] = `
+Object {
+  "isExact": true,
+  "params": Object {},
+  "path": "/user/all",
+  "url": "/user/all",
+}
+`;
+
+exports[`RelativePathPattern match /user/all/desc 1`] = `
+Object {
+  "isExact": false,
+  "params": Object {},
+  "path": "/user/all",
+  "url": "/user/all",
+}
+`;
+
+exports[`RelativePathPattern match exact /user/all 1`] = `
+Object {
+  "isExact": true,
+  "params": Object {},
+  "path": "/user/all",
+  "url": "/user/all",
+}
+`;
+
+exports[`RelativePathPattern match strict /user 1`] = `
+Object {
+  "isExact": true,
+  "params": Object {},
+  "path": "/user/all",
+  "url": "/user/all",
+}
+`;
+
+exports[`RelativePathPatternWithParams Match /other-post/etienne 1`] = `
+Object {
+  "isExact": true,
+  "params": Object {
+    "post": "other-post",
+    "user": "etienne",
+  },
+  "path": "/:post/:user",
+  "url": "/other-post/etienne",
+}
+`;
+
+exports[`RelativePathPatternWithParams does not allow false 1`] = `"RelativePathPattern must be resolved with a MatchSuccess, received: false"`;
+
+exports[`RelativePathPatternWithParams match /my-post/etienne 1`] = `
+Object {
+  "isExact": true,
+  "params": Object {
+    "post": "my-post",
+    "user": "etienne",
+  },
+  "path": "/:post/:user",
+  "url": "/my-post/etienne",
+}
+`;
+
+exports[`RelativePathPatternWithParams match /user/all/desc 1`] = `
+Object {
+  "isExact": false,
+  "params": Object {
+    "user": "etienne",
+  },
+  "path": "/user/:user",
+  "url": "/user/etienne",
+}
+`;
+
+exports[`RelativePathPatternWithParams match /user/etienne 1`] = `
+Object {
+  "isExact": true,
+  "params": Object {
+    "user": "etienne",
+  },
+  "path": "/user/:user",
+  "url": "/user/etienne",
+}
+`;

@@ -3,6 +3,8 @@
 /test
 /assets
 /generated-docs
+/.cache
+/scripts
 webpack.config.js
 tsconfig.json
 stats.json

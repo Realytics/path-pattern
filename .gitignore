@@ -1,3 +1,9 @@
+# Parcel cache
+.cache
+
+# Doc build
+dist
+
 # Logs
 logs
 *.log

@@ -24,7 +24,7 @@ export interface PatternWithParams<Params extends object = {}> {
   matchStrict(path: Path): Match<Params>;
   compile(params: Params): string;
   extends(subpattern: string): PatternWithParams<Params>;
-  extends<ParentParams extends object>(subpattern: string): PatternWithParams<ParentParams & Params>;
+  extendsWithParams<ParentParams extends object>(subpattern: string): PatternWithParams<ParentParams & Params>;
 }
 
 export interface Pattern {
@@ -35,5 +35,5 @@ export interface Pattern {
   matchStrict(path: Path): Match<{}>;
   compile(): string;
   extends(subpattern: string): Pattern;
-  extends<ParentParams extends object>(subpattern: string): PatternWithParams<ParentParams>;
+  extendsWithParams<ParentParams extends object>(subpattern: string): PatternWithParams<ParentParams>;
 }
